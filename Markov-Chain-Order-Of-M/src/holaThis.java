@@ -30,12 +30,11 @@
 //
 //
 //
-        public void settings()
-        {
-
-                size(900,500);
-                size(900,1500);
-        }
+//	public void settings()
+//	{
+//		
+//		size(900,500);
+//	}
 //	
 //	public void draw()
 //	{		
@@ -215,7 +214,8 @@ public class holaThis extends PApplet {
 	public void setup() {
 		background(135,106,250);
 		String filePath = getPath("/mid/MaryHadALittleLamb.mid"); 
-		//String filePath = getPath("/mid/la_cumparsita.mid"); // returns a url
+		//String filePath = getPath("/mid/la_cumparsita.mid");
+		
 		playMidiFile(filePath); //THIS ACTUALLY PLAYS THE FILE
 
 		//gets all the midi notes from existing files
@@ -230,66 +230,46 @@ public class holaThis extends PApplet {
 		player.setMelody(midiNotes.getPitchArray());
 		player.setRhythm(midiNotes.getRhythmArray());
 		
-
-//Markov calculations
-		MarkovGenerator<Integer> notesMarkov = new MarkovGenerator<Integer>();
-		notesMarkov.markovCalcs(midiNotes.pitches);
 		
-		for (int i = 0; i < midiNotes.pitches.size(); i++) {
-			notesMarkov.generateMarkov(60);
-		}
-		System.out.println("Generated MarkovNotes: " + notesMarkov.generatedMarkov);
-		MarkovGenerator<Double> rhythmsMarkov = new MarkovGenerator<Double>();
-		for (int i = 0; i < midiNotes.rhythms.size(); i++) {
-			midiNotes.rhythms.set(i, ((float)Math.round(midiNotes.rhythms.get(i) * 100.0) / 100.0));
-		}
-		System.out.println("New Rhythms" + midiNotes.rhythms);
-		rhythmsMarkov.markovCalcs(midiNotes.rhythms);
-		for (int i = 0; i < midiNotes.pitches.size(); i++) {
-			rhythmsMarkov.generateMarkov(1.5);
-		}
-		System.out.println("Generated Markov Rhythms: " + rhythmsMarkov.generatedMarkov);
-	
-
-
-
-
+		
 //probability calculations
-//		PredictMelody<Integer> myGenerator = new PredictMelody<Integer>();
-//		myGenerator.trainPitches(midiNotes.pitches);
-//		myGenerator.trainRhythms(midiNotes.rhythms);
-
-//		for (int i = 0; i < midiNotes.pitches.size(); i++) {
-//			myGenerator.generateNotes();
-//		}
-//		for (int i = 0; i < midiNotes.rhythms.size(); i++) {
-//			myGenerator.generateRhythms();
-//		}
-//
-//			System.out.println("Generated Notes by probability: " + myGenerator.generatedNotes);
-//			System.out.println("Generated Rhythms by probability: " + myGenerator.generatedRhythms);
+		PredictMelody<Integer> myGenerator = new PredictMelody<Integer>();
+		myGenerator.trainPitches(midiNotes.pitches);
+		myGenerator.trainRhythms(midiNotes.rhythms);
+		
+		for (int i = 0; i < 10; i++) {
+			myGenerator.generateNotes();
 		}
+		  
+		for (int i = 0; i < 10; i++) {
+			myGenerator.generateRhythms();
+		}
+		System.out.println("Generated Pitches by probability: " + myGenerator.generatedNotes);
+		System.out.println("Generated Rhythms by probability: " + myGenerator.generatedRhythms);
+		
+		}	
+		
 
 	public void draw() {
 		float x = width/10;
 		float y = height/5;
 		float w = width*4/5;
 		float h = 80;
-		background(135,106,250);
-		fill(0);  
+		background(255,106,250);
+		fill(0); 
 		rect(x,y,w,h);
 		fill(255); 
-		text("Pressed key 'A' to see the probabilities of each detected note",x+30,y+50);
+		text("Pressed key 'A' to see the transition table for the test melody",x+30,y+50);
 		fill(0); 
 		rect(x,2*y,w,h);
 		fill(255);
-		text("Pressed key 'B' to see the pitches and rhythms of one melody",x+30,2*y+50);
+		text("Pressed key 'B' to see the pitches and rhythms of the melody",x+30,2*y+50);
 		fill(0); 
 		rect(x,3*y,w,h);
 		fill(255);
-		text("Pressed key 'C' to see the probabilities of pitches and rhythms from that dataset",x+30,3*y+50);
+		text("Pressed key 'C' to see the probabilities of pitches and rhythms from dataset",x+30,3*y+50);
 		fill(255);
-		player.play();
+		//player.play();
 	}
 
 	String getPath(String path) { //accesses resources
@@ -310,10 +290,104 @@ public class holaThis extends PApplet {
 	}
 
 	public void keyPressed() {
-		if (key == ' ') {
-			player.reset();
-			println("Melody started!");
+
+//			player.reset();
+//			println("Melody started!");
+
+		if (key == 'a') {
+			funcA();	
+		}
+		
+		if (key == 'b') {
+			funcB();	
+		}
+		
+		if (key == 'c') {
+			funcC();	
 		}
 	}
+	
+	//Print out the Unit test 1 function
+	public void funcA()
+	{
+		
+		System.out.println("Pitches: ");
+		for(int i = 1; i <= 10; i++)
+		{
+			MarkovOrderOfM<Integer> train = new MarkovOrderOfM<Integer>();
+			System.out.println("ORDER OF "+i+": "); 
+			train.train(midiNotes.pitches, i);
+			//train.printTransitionTable();
+			train.printProbabilitiesTable();
+			System.out.println(" "); 
+		}
+			
+		
+		System.out.println(" "); 	
+		System.out.println("Rhythms ");
+		for(int i = 1; i <= 5; i++)
+		{
+			MarkovOrderOfM<Double> rhythmsMarkov = new MarkovOrderOfM<Double>();
+			System.out.println("ORDER OF "+i+": "); 
+			rhythmsMarkov.train(midiNotes.rhythms, i);
+			//rhythmsMarkov.printTransitionTable();
+			rhythmsMarkov.printProbabilitiesTable();
+		}	
+	}
+	
+	
+	//Print out the Unit test 2 function
+	public void funcB()
+	{
+//		System.out.println("Pitches: ");
+//		MarkovGenerator<Integer> notesMarkov = new MarkovGenerator<Integer>();
+//		notesMarkov.markovCalcs(midiNotes.pitches, 2);
+//		notesMarkov.printProbabilities("pitches");
+//		for (int i = 0; i < 20; i++) 
+//		{
+//			notesMarkov.generateMarkov(60);
+//		}
+//		
+//		System.out.println("Generated Markov Pitches: " + notesMarkov.generatedMarkov);
+//
+//		
+//		System.out.println(" ");//New line
+//		System.out.println("Rhythms "); 
+//		MarkovGenerator<Double> rhythmsMarkov = new MarkovGenerator<Double>();
+//		rhythmsMarkov.markovCalcs(midiNotes.rhythms, 2);
+//		rhythmsMarkov.printProbabilities("rhythms");
+//		
+//		for (int i = 0; i < midiNotes.rhythms.size(); i++) 
+//		{
+//			midiNotes.rhythms.set(i, ((float)Math.round(midiNotes.rhythms.get(i) * 100.0) / 100.0));
+//		}
+//		
+//		//System.out.println("New Rhythms is [" + midiNotes.rhythms+ "]");
+//		for (int i = 0; i < 20; i++) 
+//		{
+//			rhythmsMarkov.generateMarkov(2.0);
+//		}
+//		System.out.println("Generated Markov Rhythms: " + rhythmsMarkov.generatedMarkov);
+	}
+
+		
+	
+	//Print out the Unit test 3 function
+	public void funcC()
+	{
+//		System.out.println("Pitches: ");
+//		MarkovGenerator<Integer> notesMarkov = new MarkovGenerator<Integer>();
+//		notesMarkov.markovCalcs(midiNotes.pitches);
+//		notesMarkov.printProbabilities("Pitches");
+//		
+//		System.out.println("Rhythms ");
+//		MarkovGenerator<Double> rhythmsMarkov = new MarkovGenerator<Double>();
+//		rhythmsMarkov.markovCalcs(midiNotes.rhythms);
+//		rhythmsMarkov.printProbabilities("Rhythms");		
+		
+	}
+
+
+		
 }
 
