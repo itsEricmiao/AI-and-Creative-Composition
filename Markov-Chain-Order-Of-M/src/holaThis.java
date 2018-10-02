@@ -315,11 +315,12 @@ public class holaThis extends PApplet {
 		for(int i = 1; i <= 10; i++)
 		{
 			MarkovOrderOfM<Integer> train = new MarkovOrderOfM<Integer>();
-			System.out.println("ORDER OF "+i+": "); 
+			System.out.println("ORDER OF "+ i +": "); 
 			train.train(midiNotes.pitches, i);
 			//train.printTransitionTable();
-			train.printProbabilitiesTable();
 			System.out.println(" "); 
+			train.printProbabilitiesTable(i);
+			
 		}
 			
 		
@@ -331,7 +332,7 @@ public class holaThis extends PApplet {
 			System.out.println("ORDER OF "+i+": "); 
 			rhythmsMarkov.train(midiNotes.rhythms, i);
 			//rhythmsMarkov.printTransitionTable();
-			rhythmsMarkov.printProbabilitiesTable();
+			rhythmsMarkov.printProbabilitiesTable(i);
 		}	
 	}
 	
@@ -375,6 +376,17 @@ public class holaThis extends PApplet {
 	//Print out the Unit test 3 function
 	public void funcC()
 	{
+		
+//		MarkovChain masterPitch; 
+//		
+//		for(j<1000000)
+//		{
+//			ArrayList arr = train.generate(initWord, 20);
+//			
+//			masterPitch.train(arr);
+//		}
+		
+//		masterPitch.printPro
 //		System.out.println("Pitches: ");
 //		MarkovGenerator<Integer> notesMarkov = new MarkovGenerator<Integer>();
 //		notesMarkov.markovCalcs(midiNotes.pitches);

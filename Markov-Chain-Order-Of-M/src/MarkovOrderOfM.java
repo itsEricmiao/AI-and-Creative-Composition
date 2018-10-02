@@ -1,6 +1,5 @@
 import java.util.ArrayList;
 import java.util.List;
-
 //Markov process is a stochastic process whose future is independent of its past given its present state.
 public class MarkovOrderOfM<E> {
 	//Initialize three ArrayList
@@ -11,27 +10,22 @@ public class MarkovOrderOfM<E> {
 	int[][] transitionTable; // The Transition Table
 	float[][] probabilitiesTable; // The Transition Table
 	
-		
-	MarkovOrderOfM() {}
+	//MarkovOrderOfM() {}
 	
-
 	void train(ArrayList<E> members, Integer order) 
 	{
-		//Create the alphabet array
+//Create the alphabet array
 		for (int i = 0; i < members.size()-order; i++) {
 			ArrayList<E>temp = new ArrayList<E>(members.subList(i, i+order));
-			if(alphabet.contains(temp))
-			{
-
-			}
-			else 
+			if(!alphabet.contains(temp))
 			{
 				alphabet.add(temp);
 			}
 		}
 		
-		//Create the data array
-		for (int i = 0; i < members.size(); i++) {
+//Creating the data array
+		for (int i = 0; i < members.size(); i++) 
+		{
 			while(data.contains(members.get(i)) != true)
 			{
 				data.add(members.get(i));
@@ -39,67 +33,82 @@ public class MarkovOrderOfM<E> {
 		}
 		
 		
-//Create transition table
-		
-		transitionTable = new int[data.size()][alphabet.size()];
-		
+//Creating transition table
+		transitionTable = new int[alphabet.size()][data.size()];
 		for(int i = 0; i < members.size()-order; i++)
 		{
 			ArrayList<E> tempRow = new ArrayList<E>(members.subList(i, i+order));
-			
-			int col = alphabet.indexOf(tempRow);
-			int row = data.indexOf(members.get(i+order));
-
-			if(row != -1 && col != -1)
-			{
-				int val = transitionTable[row][col];
-				val++;
-				transitionTable[row][col] = val;
-			}
+			int row = alphabet.indexOf(tempRow);
+			int col = data.indexOf(members.get(i+order));
+			int val = transitionTable[row][col];
+			val++;
+			transitionTable[row][col] = val;
 		}
 		
 //calculate probabilities
-		probabilitiesTable = new float[data.size()][alphabet.size()];
-		
-		
+		probabilitiesTable = new float[alphabet.size()][data.size()];
 		for(int x = 0; x < alphabet.size(); x ++)
 		{
 			int lineTotal = 0;
 			for(int y = 0; y < data.size(); y++)	
 			{
-				lineTotal = lineTotal + transitionTable[y][x];
-				
+				lineTotal = lineTotal + transitionTable[x][y];
 			}
+			//System.out.println("LineTotal = "+lineTotal);
 			for(int m = 0; m < data.size(); m++)
 			{
-				probabilitiesTable[m][x] = (float)transitionTable[m][x]/lineTotal;
+				probabilitiesTable[x][m] = (float)transitionTable[x][m]/lineTotal;
 			}
 		}
 		
 	}
 	
-	void printTransitionTable()
+	void printTransitionTable(int order)
 	{
+		for(int i = 0; i < order; i ++)
+		{
+			System.out.print("    ");
+		}
+		
+		for(int i = 0; i < data.size(); i++)
+		{
+			System.out.print("       "+data.get(i));
+		}
+		System.out.println("");
 		for(int i = 0; i < alphabet.size(); i++)
 		{
+			
+			System.out.print(alphabet.get(i));
 			for (int j = 0; j < data.size(); j++)
 			{
-				System.out.println(alphabet.get(i)+" -> ["+data.get(j)+"]          Instance = "+transitionTable[j][i]);
+				System.out.print("       " + transitionTable[i][j]);
 			}
-				
+			System.out.println("");
 		}
 	}
 	
 	
-	void printProbabilitiesTable()
+	void printProbabilitiesTable(int order)
 	{
+		for(int i = 0; i < order; i ++)
+		{
+			System.out.print("     ");
+		}
+		
+		for(int i = 0; i < data.size(); i++)
+		{
+			System.out.print("      ["+data.get(i)+"]");
+		}
+		System.out.println("");
 		for(int i = 0; i < alphabet.size(); i++)
 		{
+			
+			System.out.print(alphabet.get(i));
 			for (int j = 0; j < data.size(); j++)
 			{
-				System.out.println(alphabet.get(i)+" -> ["+data.get(j)+"]          Probabilities = "+probabilitiesTable[j][i]);
+				System.out.print("       " + probabilitiesTable[i][j]);
 			}
-				
+			System.out.println("");
 		}
 	}
 	
