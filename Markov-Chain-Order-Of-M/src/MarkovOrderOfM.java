@@ -1,12 +1,15 @@
 import java.util.ArrayList;
 import java.util.List;
+
 //Markov process is a stochastic process whose future is independent of its past given its present state.
-public class MarkovOrderOfM<E> {
+public class MarkovOrderOfM<E> 
+{
 	//Initialize three ArrayList
 	ArrayList<ArrayList<E>> alphabet = new ArrayList<ArrayList<E>>();	//This ArrayList contains each unique order of M elements in the midi file
 	ArrayList<E> data = new ArrayList<E>(); //This ArrayList contains each unique note (size of 1) in the midi file
 	ArrayList<Integer> instances = new ArrayList<Integer>();	//This ArrayList contains occurrence of each element
 	ArrayList<E> generatedMarkov = new ArrayList<E>(); //The notes we gonna generate based on the algorithm provided
+	
 	int[][] transitionTable; // The Transition Table
 	float[][] probabilitiesTable; // The Transition Table
 	
@@ -60,7 +63,6 @@ public class MarkovOrderOfM<E> {
 				probabilitiesTable[x][m] = (float)transitionTable[x][m]/lineTotal;
 			}
 		}
-		
 	}
 	
 	void printTransitionTable(int order)
@@ -99,10 +101,11 @@ public class MarkovOrderOfM<E> {
 		{
 			System.out.print("      ["+data.get(i)+"]");
 		}
+		
 		System.out.println("");
+		
 		for(int i = 0; i < alphabet.size(); i++)
 		{
-			
 			System.out.print(alphabet.get(i));
 			for (int j = 0; j < data.size(); j++)
 			{
@@ -111,7 +114,6 @@ public class MarkovOrderOfM<E> {
 			System.out.println("");
 		}
 	}
-	
 }
 //	void generateMarkov(E key) {
 //		prob = 0;

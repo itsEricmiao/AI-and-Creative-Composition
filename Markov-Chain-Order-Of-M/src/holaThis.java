@@ -310,65 +310,39 @@ public class holaThis extends PApplet {
 	//Print out the Unit test 1 function
 	public void funcA()
 	{
-		
+		System.out.println(" ");
 		System.out.println("Pitches: ");
 		for(int i = 1; i <= 10; i++)
 		{
 			MarkovOrderOfM<Integer> train = new MarkovOrderOfM<Integer>();
-			System.out.println("ORDER OF "+ i +": "); 
+			System.out.println("ORDER OF "+ i +": --------------------------------------------------------------------------------- "); 
 			train.train(midiNotes.pitches, i);
 			//train.printTransitionTable();
 			System.out.println(" "); 
 			train.printProbabilitiesTable(i);
-			
+			System.out.println(""); 	
 		}
-			
 		
 		System.out.println(" "); 	
-		System.out.println("Rhythms ");
+		System.out.println("Rhythms:");
 		for(int i = 1; i <= 5; i++)
 		{
 			MarkovOrderOfM<Double> rhythmsMarkov = new MarkovOrderOfM<Double>();
-			System.out.println("ORDER OF "+i+": "); 
+			System.out.println("ORDER OF "+i+": --------------------------------------------------------------------------------- "); 
 			rhythmsMarkov.train(midiNotes.rhythms, i);
+			System.out.println(""); 
 			//rhythmsMarkov.printTransitionTable();
 			rhythmsMarkov.printProbabilitiesTable(i);
-		}	
+			System.out.println(""); 
+		}
 	}
 	
 	
 	//Print out the Unit test 2 function
 	public void funcB()
 	{
-//		System.out.println("Pitches: ");
-//		MarkovGenerator<Integer> notesMarkov = new MarkovGenerator<Integer>();
-//		notesMarkov.markovCalcs(midiNotes.pitches, 2);
-//		notesMarkov.printProbabilities("pitches");
-//		for (int i = 0; i < 20; i++) 
-//		{
-//			notesMarkov.generateMarkov(60);
-//		}
-//		
-//		System.out.println("Generated Markov Pitches: " + notesMarkov.generatedMarkov);
-//
-//		
-//		System.out.println(" ");//New line
-//		System.out.println("Rhythms "); 
-//		MarkovGenerator<Double> rhythmsMarkov = new MarkovGenerator<Double>();
-//		rhythmsMarkov.markovCalcs(midiNotes.rhythms, 2);
-//		rhythmsMarkov.printProbabilities("rhythms");
-//		
-//		for (int i = 0; i < midiNotes.rhythms.size(); i++) 
-//		{
-//			midiNotes.rhythms.set(i, ((float)Math.round(midiNotes.rhythms.get(i) * 100.0) / 100.0));
-//		}
-//		
-//		//System.out.println("New Rhythms is [" + midiNotes.rhythms+ "]");
-//		for (int i = 0; i < 20; i++) 
-//		{
-//			rhythmsMarkov.generateMarkov(2.0);
-//		}
-//		System.out.println("Generated Markov Rhythms: " + rhythmsMarkov.generatedMarkov);
+
+		
 	}
 
 		
@@ -377,26 +351,15 @@ public class holaThis extends PApplet {
 	public void funcC()
 	{
 		
-//		MarkovChain masterPitch; 
-//		
+//		MarkovOrderOfM masterPitch; 
+//		PredictMelody train;
+//		int j = 0;
 //		for(j<1000000)
 //		{
 //			ArrayList arr = train.generate(initWord, 20);
-//			
 //			masterPitch.train(arr);
+//			j++;
 //		}
-		
-//		masterPitch.printPro
-//		System.out.println("Pitches: ");
-//		MarkovGenerator<Integer> notesMarkov = new MarkovGenerator<Integer>();
-//		notesMarkov.markovCalcs(midiNotes.pitches);
-//		notesMarkov.printProbabilities("Pitches");
-//		
-//		System.out.println("Rhythms ");
-//		MarkovGenerator<Double> rhythmsMarkov = new MarkovGenerator<Double>();
-//		rhythmsMarkov.markovCalcs(midiNotes.rhythms);
-//		rhythmsMarkov.printProbabilities("Rhythms");		
-		
 	}
 
 
