@@ -195,6 +195,8 @@ import jm.midi.*;
 
 import java.io.UnsupportedEncodingException;
 import java.net.*;
+import java.util.ArrayList;
+import java.util.Arrays;
 
 public class holaThis extends PApplet {
 	PFont f; 
@@ -341,8 +343,14 @@ public class holaThis extends PApplet {
 	//Print out the Unit test 2 function
 	public void funcB()
 	{
-
-		
+		MarkovOrderOfM<Integer> train = new MarkovOrderOfM<Integer>();
+		train.train(midiNotes.pitches, 3);
+		Integer[] temp = {62,64,67};
+		ArrayList<Integer> t = new ArrayList(Arrays.asList(temp));
+//		for(int i = 0; i < 10000; i++)
+//		{
+			System.out.println("Input note is: [" + t+ "]  Predicted note is: ["+train.generateNote(t)+"]");
+//		}
 	}
 
 		

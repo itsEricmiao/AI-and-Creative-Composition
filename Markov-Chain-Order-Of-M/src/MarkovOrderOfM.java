@@ -114,22 +114,33 @@ public class MarkovOrderOfM<E>
 			System.out.println("");
 		}
 	}
+	
+	E generateNote(ArrayList<E> key)
+	{
+		float chain[] = new float [data.size()];
+		
+		int index;
+		int val = 0;
+		index = alphabet.indexOf(key);
+		double randomNum = Math.random();
+		chain[0] = 0;
+		
+		//Make the chain array
+		for(int i = 1; i < data.size(); i++)
+		{
+			chain[i] = chain[i-1] + probabilitiesTable[index][i-1];
+		}
+		//Find the area in the chain array
+		
+		for(int left = 0; left < data.size()-1; left++)
+		{
+			if(chain[left] < randomNum && chain[left+1] > randomNum)
+			{
+				val = left;
+			}
+		}
+		return data.get(val);
+	}
 }
-//	void generateMarkov(E key) {
-//		prob = 0;
-//		double numMarkov = Math.random();
-//		
-//		if (data.contains(key)) {
-//			for (int j = 0; j < data.size(); j++) 
-//			{
-//				if (prob < numMarkov && numMarkov <= (prob + mainProbs[data.indexOf(key)][j])) 
-//				{
-//					generatedMarkov.add(data.get(j));
-//				}
-//				
-//				prob = prob + mainProbs[data.indexOf(key)][j];
-//			} 
-//		}
-//	}
 
 
