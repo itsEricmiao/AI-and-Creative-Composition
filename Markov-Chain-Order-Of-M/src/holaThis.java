@@ -348,11 +348,7 @@ public class holaThis extends PApplet {
 		ArrayList<Integer> t = new ArrayList(Arrays.asList(temp));
 		for(int i = 0; i < 10000; i++)
 		{
-			
-			System.out.println("Input note is: [" + t+ "]  Predicted note is: ["+train.generateNote(t)+"]");
-			//Add the preidcted note into the temp array
-			temp = add(temp,train.generateNote(t)); 
-			ArrayList<Integer> t = new ArrayList(Arrays.asList(temp));
+			System.out.println("Input note is: [" + t+ "]  Predicted note is: ["+train.generate(t,15)+"]");
 		}
 	}
 

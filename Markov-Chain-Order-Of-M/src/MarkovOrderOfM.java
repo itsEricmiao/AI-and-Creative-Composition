@@ -121,25 +121,54 @@ public class MarkovOrderOfM<E>
 		
 		int index;
 		int val = 0;
-		index = alphabet.indexOf(key);
-		double randomNum = Math.random();
-		chain[0] = 0;
-		
-		//Make the chain array
-		for(int i = 1; i < data.size(); i++)
+		if(alphabet.contains(key))
 		{
-			chain[i] = chain[i-1] + probabilitiesTable[index][i-1];
-		}
-		//Find the area in the chain array
-		
-		for(int left = 0; left < data.size()-1; left++)
-		{
-			if(chain[left] < randomNum && chain[left+1] > randomNum)
+			index = alphabet.indexOf(key);
+			double randomNum = Math.random();
+			chain[0] = 0;
+			
+			//Make the chain array
+			for(int i = 1; i < data.size(); i++)
 			{
-				val = left;
+				chain[i] = chain[i-1] + probabilitiesTable[index][i-1];
+			}
+			//Find the area in the chain array
+			
+			for(int left = 0; left < data.size()-1; left++)
+			{
+				if(chain[left] < randomNum && chain[left+1] > randomNum)
+				{
+					val = left;
+				}
 			}
 		}
+		else if(!alphabet.contains(key))
+		{
+			val = 64;
+		}
 		return data.get(val);
+	}
+	
+	
+	ArrayList<E> generate(ArrayList<E>init, int size)
+	{
+		ArrayList<E> outputArr = new ArrayList<E>();
+		outputArr.addAll(init);
+		E nextNote;
+		
+		while(outputArr.size() < size)
+		{
+			ArrayList<E> trainArr = new ArrayList<E>();
+			for(int i = outputArr.size()-3; i < outputArr.size(); i++)
+			{
+				trainArr.add(outputArr.get(i)); 
+			}
+				System.out.println("TrainArr " + trainArr);
+				nextNote = generateNote(trainArr);
+				System.out.println("Predicted note is " + nextNote);
+				outputArr.add(nextNote);
+		}
+		return outputArr;
 	}
 }
 
