@@ -144,7 +144,8 @@ public class MarkovOrderOfM<E>
 		}
 		else if(!alphabet.contains(key))
 		{
-			val = 64;
+			System.out.println("Didn't find any combination in the transition table");
+			val = 1;
 		}
 		return data.get(val);
 	}
@@ -163,9 +164,9 @@ public class MarkovOrderOfM<E>
 			{
 				trainArr.add(outputArr.get(i)); 
 			}
-				System.out.println("TrainArr " + trainArr);
+				//System.out.println("TrainArr " + trainArr);
 				nextNote = generateNote(trainArr);
-				System.out.println("Predicted note is " + nextNote);
+				//System.out.println("Predicted note is " + nextNote);
 				outputArr.add(nextNote);
 		}
 		return outputArr;
