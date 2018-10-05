@@ -144,7 +144,7 @@ public class MarkovOrderOfM<E>
 		}
 		else if(!alphabet.contains(key))
 		{
-			System.out.println("Didn't find any combination in the transition table");
+			//System.out.println("Didn't find any combination in the transition table");
 			val = 1;
 		}
 		return data.get(val);

@@ -344,11 +344,13 @@ public class holaThis extends PApplet {
 	{
 		MarkovOrderOfM<Integer> train = new MarkovOrderOfM<Integer>();
 		train.train(midiNotes.pitches, 3);
-		Integer[] temp = {62,64,67};
+		Integer[] temp = {62,62,67};
 		ArrayList<Integer> t = new ArrayList(Arrays.asList(temp));
-		for(int i = 0; i < 10000; i++)
+		for(int i = 0; i < 20; i++)
 		{
-			System.out.println("Input note is: [" + t+ "]  Predicted note is: ["+train.generate(t,15)+"]");
+			System.out.println("Number "+i+": Input note is " + t+ "  Predicted note is: "+train.generate(t,20));
+			train.train(train.generate(t,20), 3);
+			train.printProbabilitiesTable(i);
 		}
 	}
 
