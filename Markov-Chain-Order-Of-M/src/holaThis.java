@@ -434,6 +434,62 @@ public class holaThis extends PApplet {
 		Double[] temp12 = {1.0,1.5};
 		ArrayList<Double> t12 = new ArrayList(Arrays.asList(temp12));
 		System.out.println("Number "+2+": Input note is " + t12 + "  Predicted note is: "+train11.generateNote(t12));
+		
+		//order of 3:
+		MarkovOrderOfM<Double> train13 = new MarkovOrderOfM<Double>();
+		train13.train(midiNotes.rhythms, 3);
+		Double[] temp13 = {1.0,1.5, 1.0};
+		ArrayList<Double> t13 = new ArrayList(Arrays.asList(temp13));
+		System.out.println("Number "+3+": Input note is " + t13 + "  Predicted note is: "+train13.generateNote(t13));
+		
+		//order of 4:
+		MarkovOrderOfM<Double> train14 = new MarkovOrderOfM<Double>();
+		train14.train(midiNotes.rhythms, 4);
+		Double[] temp14 = {1.0,1.5,1.0,1.5};
+		ArrayList<Double> t14 = new ArrayList(Arrays.asList(temp14));
+		System.out.println("Number "+4+": Input note is " + t14 + "  Predicted note is: "+train14.generateNote(t14));
+		
+		//order of 5:
+		MarkovOrderOfM<Double> train15 = new MarkovOrderOfM<Double>();
+		train15.train(midiNotes.rhythms, 5);
+		Double[] temp15 = {1.0,1.5,1.0,1.5,1.0};
+		ArrayList<Double> t15 = new ArrayList(Arrays.asList(temp15));
+		System.out.println("Number "+5+": Input note is " + t15 + "  Predicted note is: "+train15.generateNote(t15));
+		
+		//order of 6:
+		MarkovOrderOfM<Double> train16 = new MarkovOrderOfM<Double>();
+		train16.train(midiNotes.rhythms, 6);
+		Double[] temp16 = {1.0,1.5,1.0,1.5,1.0,1.5};
+		ArrayList<Double> t16 = new ArrayList(Arrays.asList(temp16));
+		System.out.println("Number "+6+": Input note is " + t16 + "  Predicted note is: "+train16.generateNote(t16));
+		
+		//order of 7:
+		MarkovOrderOfM<Double> train17 = new MarkovOrderOfM<Double>();
+		train17.train(midiNotes.rhythms, 7);
+		Double[] temp17 = {1.0,1.5,1.0,1.5,1.0,1.5,1.5};
+		ArrayList<Double> t17 = new ArrayList(Arrays.asList(temp17));
+		System.out.println("Number "+7+": Input note is " + t17 + "  Predicted note is: "+train16.generateNote(t17));
+				
+		//order of 8:
+		MarkovOrderOfM<Double> train18 = new MarkovOrderOfM<Double>();
+		train18.train(midiNotes.rhythms, 8);
+		Double[] temp18 = {1.0,1.5,1.0,1.5,1.0,1.5,1.5,1.0};
+		ArrayList<Double> t18 = new ArrayList(Arrays.asList(temp18));
+		System.out.println("Number "+8+": Input note is " + t18 + "  Predicted note is: "+train16.generateNote(t18));
+		
+		//order of 9:
+		MarkovOrderOfM<Double> train19 = new MarkovOrderOfM<Double>();
+		train19.train(midiNotes.rhythms, 9);
+		Double[] temp19 = {1.0,1.5,1.0,1.5,1.0,1.5,1.5,1.0,1.5};
+		ArrayList<Double> t19 = new ArrayList(Arrays.asList(temp19));
+		System.out.println("Number "+9+": Input note is " + t19 + "  Predicted note is: "+train19.generateNote(t19));
+				
+		//order of 10:
+		MarkovOrderOfM<Double> train20 = new MarkovOrderOfM<Double>();
+		train20.train(midiNotes.rhythms, 10);
+		Double[] temp20 = {1.0,1.5,1.0,1.5,1.5,1.5,1.0,1.5,1.5,1.0};
+		ArrayList<Double> t20 = new ArrayList(Arrays.asList(temp20));
+		System.out.println("Number "+10+": Input note is " + t20 + "  Predicted note is: "+train20.generateNote(t20));
 	}
 
 		
