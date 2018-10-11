@@ -351,6 +351,7 @@ public class holaThis extends PApplet {
 	//Print out the Unit test 2 function
 	public void funcB()
 	{
+		System.out.println("---------------------PITCHES--------------------");
 		//order of 1:
 		MarkovOrderOfM<Integer> train1 = new MarkovOrderOfM<Integer>();
 		train1.train(midiNotes.pitches, 1);
@@ -420,7 +421,9 @@ public class holaThis extends PApplet {
 		Integer[] temp10 = {60,62,64,60,62,64,60,62,64,60,62,60};
 		ArrayList<Integer> t10 = new ArrayList(Arrays.asList(temp10));
 		System.out.println("Number "+10+": Input note is " + t10 + "  Predicted note is: "+train10.generateNote(t10));
-
+		
+		System.out.println("---------------------RHYTHMS--------------------");
+		
 		//order of 1:
 		MarkovOrderOfM<Double> train11 = new MarkovOrderOfM<Double>();
 		train11.train(midiNotes.rhythms, 1);
