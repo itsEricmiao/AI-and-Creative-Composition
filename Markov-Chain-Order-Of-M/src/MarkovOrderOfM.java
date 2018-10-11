@@ -115,14 +115,18 @@ public class MarkovOrderOfM<E>
 		}
 	}
 	
+	//For the generateNote function, user provide the init ArrayList and the function will return the predicted next note
 	E generateNote(ArrayList<E> key)
 	{
 		float chain[] = new float [data.size()];
 		
 		int index;
 		int val = 0;
+		
+		//check if alphabet arrayList contains the key 
 		if(alphabet.contains(key))
 		{
+			//Index has the index of the key from the alphabet arraylist
 			index = alphabet.indexOf(key);
 			double randomNum = Math.random();
 			chain[0] = 0;
@@ -150,7 +154,7 @@ public class MarkovOrderOfM<E>
 		return data.get(val);
 	}
 	
-	
+	//For the generate function, user provide the init ArrayList and the size of output array
 	ArrayList<E> generate(ArrayList<E>init, int size)
 	{
 		ArrayList<E> outputArr = new ArrayList<E>();
