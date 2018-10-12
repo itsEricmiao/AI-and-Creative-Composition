@@ -122,7 +122,6 @@ public class MarkovOrderOfM<E>
 		
 		int index;
 		int val = 0;
-		
 		//check if alphabet arrayList contains the key 
 		if(alphabet.contains(key))
 		{
@@ -137,7 +136,6 @@ public class MarkovOrderOfM<E>
 				chain[i] = chain[i-1] + probabilitiesTable[index][i-1];
 			}
 			//Find the area in the chain array
-			
 			for(int left = 0; left < data.size()-1; left++)
 			{
 				if(chain[left] < randomNum && chain[left+1] > randomNum)
@@ -148,7 +146,7 @@ public class MarkovOrderOfM<E>
 		}
 		else if(!alphabet.contains(key))
 		{
-			System.out.println("Didn't find any combination in the transition table");
+			System.out.println("ERROR: Didn't find any combination in the transition table");
 			val = 2;
 		}
 		return data.get(val);
@@ -163,14 +161,14 @@ public class MarkovOrderOfM<E>
 		while(outputArr.size() < size)
 		{
 			ArrayList<E> trainArr = new ArrayList<E>();
-//			for(int i = 0; i < outputArr.size(); i++)
-//			{
+			for(int i = outputArr.size() - 3; i < outputArr.size(); i++)
+			{
 				trainArr.addAll(init);
-//			}
+			}
 			
 				System.out.println("TrainArr " + trainArr);
 				nextNote = generateNote(trainArr);
-				//System.out.println("Predicted note is " + nextNote);
+				System.out.println("Predicted note is " + nextNote);
 				outputArr.add(nextNote);
 		}
 		return outputArr;
