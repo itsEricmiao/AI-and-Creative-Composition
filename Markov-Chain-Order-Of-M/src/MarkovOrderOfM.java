@@ -146,30 +146,32 @@ public class MarkovOrderOfM<E>
 		}
 		else if(!alphabet.contains(key))
 		{
-			System.out.println("ERROR: Didn't find any combination in the transition table");
 			val = 2;
 		}
 		return data.get(val);
 	}
 	
 	//For the generate function, user provide the init ArrayList and the size of output array
-	ArrayList<E> generate(ArrayList<E>init, int size)
+	ArrayList<E> generate(ArrayList<E>init, int size, int order)
 	{
+		//outputArr stores all the generated melodies
 		ArrayList<E> outputArr = new ArrayList<E>();
 		outputArr.addAll(init);
 		E nextNote;
+		//The function will generate until it reaches the size we want
 		while(outputArr.size() < size)
 		{
+			//trainArr stores all the melodies (size of M) that are ready to use for generation
 			ArrayList<E> trainArr = new ArrayList<E>();
-			for(int i = outputArr.size() - 3; i < outputArr.size(); i++)
+			//We use the last M number of outputArr to generate the next melodies 
+			for(int i = outputArr.size()-order; i < outputArr.size(); i++)
 			{
-				trainArr.addAll(init);
+				trainArr.add(outputArr.get(i));
 			}
-			
-				System.out.println("TrainArr " + trainArr);
 				nextNote = generateNote(trainArr);
-				System.out.println("Predicted note is " + nextNote);
 				outputArr.add(nextNote);
+				//Clean the trainArr each time we generate a new melody
+				trainArr.clear();
 		}
 		return outputArr;
 	}
