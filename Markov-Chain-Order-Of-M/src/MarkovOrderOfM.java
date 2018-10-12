@@ -148,8 +148,8 @@ public class MarkovOrderOfM<E>
 		}
 		else if(!alphabet.contains(key))
 		{
-			//System.out.println("Didn't find any combination in the transition table");
-			val = 1;
+			System.out.println("Didn't find any combination in the transition table");
+			val = 2;
 		}
 		return data.get(val);
 	}
@@ -160,15 +160,15 @@ public class MarkovOrderOfM<E>
 		ArrayList<E> outputArr = new ArrayList<E>();
 		outputArr.addAll(init);
 		E nextNote;
-		
 		while(outputArr.size() < size)
 		{
 			ArrayList<E> trainArr = new ArrayList<E>();
-			for(int i = outputArr.size()-3; i < outputArr.size(); i++)
-			{
-				trainArr.add(outputArr.get(i)); 
-			}
-				//System.out.println("TrainArr " + trainArr);
+//			for(int i = 0; i < outputArr.size(); i++)
+//			{
+				trainArr.addAll(init);
+//			}
+			
+				System.out.println("TrainArr " + trainArr);
 				nextNote = generateNote(trainArr);
 				//System.out.println("Predicted note is " + nextNote);
 				outputArr.add(nextNote);

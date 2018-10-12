@@ -503,27 +503,31 @@ public class holaThis extends PApplet {
 	//Function C will print out the predicted melodies from init ArrayList
 	public void funcC()
 	{
-		
-//		MarkovOrderOfM masterPitch; 
-//		PredictMelody train;
-//		int j = 0;
-//		for(j<1000000)
-//		{
-//			ArrayList arr = train.generate(initWord, 20);
-//			masterPitch.train(arr);
-//			j++;
-//		}
-		
-		MarkovOrderOfM<Integer> train = new MarkovOrderOfM<Integer>();
-		for(int i = 0; i < 10; i++)
+		MarkovOrderOfM<Integer> masterPitch = new MarkovOrderOfM<Integer>();
+		int j = 0;
+		Integer[] temp = {67};
+		ArrayList<Integer> initWord = new ArrayList(Arrays.asList(temp));
+		while(j<100)
 		{
-			train.train(midiNotes.pitches, i);
-			//temp is the input notes
-			Integer[] temp = {62,62,67};
-			ArrayList<Integer> t = new ArrayList(Arrays.asList(temp));
-
-			System.out.println("Number "+i+": Input note is " + t+ "  Predicted note is: "+train.generate(t,20));
+			MarkovOrderOfM<Integer> pitch = new MarkovOrderOfM<Integer>();
+			pitch.train(midiNotes.pitches, 2);
+			ArrayList<Integer> arr = pitch.generate(initWord,20);
+			System.out.println(arr);
+			//masterPitch.train(arr,2);
+			//System.out.println("Predicted note is: "+masterPitch.generate(initWord,20));
+			j++;
 		}
+		//masterPitch.printProbabilitiesTable(3);
+		
+//		MarkovOrderOfM<Integer> train = new MarkovOrderOfM<Integer>();
+//		for(int i = 0; i < 10; i++)
+//		{
+//			train.train(midiNotes.pitches, i);
+//			//temp is the input notes
+//			Integer[] temp = {62,62,67};
+//			ArrayList<Integer> t = new ArrayList(Arrays.asList(temp));
+//			System.out.println("Number "+i+": Input note is " + t+ "  Predicted note is: "+train.generate(t,20));
+//		}
 	}
 
 
