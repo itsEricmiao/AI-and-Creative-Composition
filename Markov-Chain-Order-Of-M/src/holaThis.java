@@ -309,7 +309,10 @@ public class holaThis extends PApplet {
 		}
 		
 		if (key == 'b') {
-			funcB();	
+			funcBA();	
+		}
+		if (key == 'd') {
+			funcBB();
 		}
 		
 		if (key == 'c') {
@@ -347,10 +350,22 @@ public class holaThis extends PApplet {
 		}
 	}
 	
+	public void funcBB()
+	{
+		for(int i = 1; i <= 10; i ++)
+		{
+			MarkovOrderOfM<Integer> train1 = new MarkovOrderOfM<Integer>();
+			train1.train(midiNotes.pitches, i);
+			Integer[] temp1 = {62, 60, 62, 64, 64, 64, 62, 62, 62, 64};
+			ArrayList<Integer> t1 = new ArrayList(Arrays.asList(temp1));
+			System.out.println("Order of "+1+": Input note is " + t1 + "  Predicted note is: "+train1.generate(t1, 20, i));
+		}
+	}
+	
 	
 	//Print out the Unit test 2 function
 	//Function B will print out the next pitch and rhythm from Marov Chain order of 1 to 10
-	public void funcB()
+	public void funcBA()
 	{
 		System.out.println();
 		System.out.println("---------------------PITCHES--------------------");
