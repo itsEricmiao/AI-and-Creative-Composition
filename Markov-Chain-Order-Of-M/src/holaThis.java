@@ -352,13 +352,24 @@ public class holaThis extends PApplet {
 	
 	public void funcBB()
 	{
+		System.out.println("---------------------PITCHES--------------------");
 		for(int i = 1; i <= 10; i ++)
 		{
 			MarkovOrderOfM<Integer> train1 = new MarkovOrderOfM<Integer>();
 			train1.train(midiNotes.pitches, i);
 			Integer[] temp1 = {62, 60, 62, 64, 64, 64, 62, 62, 62, 64};
 			ArrayList<Integer> t1 = new ArrayList(Arrays.asList(temp1));
-			System.out.println("Order of "+1+": Input note is " + t1 + "  Predicted note is: "+train1.generate(t1, 20, i));
+			System.out.println("Order of "+i+": Input note is " + t1 + "  Predicted note is: "+train1.generate(t1, 20, i));
+		}
+		
+		System.out.println("---------------------RHYTHMS--------------------");
+		for(int i = 1; i <= 10; i ++)
+		{
+			MarkovOrderOfM<Double> train11 = new MarkovOrderOfM<Double>();
+			train11.train(midiNotes.rhythms, i);
+			Double[] temp11 = {1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 2.0, 1.0, 1.0, 2.0};
+			ArrayList<Double> t11 = new ArrayList(Arrays.asList(temp11));
+			System.out.println("Order of "+i+": Input note is " + t11 + "  Predicted note is: "+train11.generate(t11, 20, i));
 		}
 	}
 	
