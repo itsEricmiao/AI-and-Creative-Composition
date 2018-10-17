@@ -197,6 +197,7 @@ import java.io.UnsupportedEncodingException;
 import java.net.*;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Random;
 
 public class holaThis extends PApplet {
 	PFont f; 
@@ -318,6 +319,9 @@ public class holaThis extends PApplet {
 		if (key == 'c') {
 			funcCA();	
 			funcCB();	
+		}
+		if (key == 't') {
+			funcT();
 		}
 	}
 	
@@ -563,7 +567,6 @@ public class holaThis extends PApplet {
 			masterPitch.printProbabilitiesTable(order);
 		}
 		
-	
 	}
 	//Unit Test 3: Rhythms
 	public void funcCB()
@@ -601,9 +604,51 @@ public class holaThis extends PApplet {
 					masterRhythms.printProbabilitiesTable(order);
 			}
 	}
-
-
 	
+	public void funcT()
+	{
+		int i = 1;
+		MarkovOrderOfM<Integer> train = new MarkovOrderOfM<Integer>();
+		System.out.println("ORDER OF "+ i +": --------------------------------------------------------------------------------- "); 
+		train.train(midiNotes.pitches, i);
+		//train.printTransitionTable();
+		System.out.println(" "); 
+		train.printProbabilitiesTable(i);
+		System.out.println(""); 
+		System.out.println("Machine Learning Part: "+ "--------------------------------------------------------------------------------- "); 
+
 		
+		int order = 1;
+		MarkovOrderOfM<Integer> masterPitch = new MarkovOrderOfM<Integer>();
+		//temp array contains the initial elements for the generation
+		Integer[] temp = new Integer[order];
+		Integer[] arr = {64, 62, 60, 62, 64, 64, 64, 62, 62, 62, 64, 67, 67, 64, 62, 60, 62, 64, 64, 64, 64, 62, 62, 64, 62, 60, -2147483648, 62, 64, 62, 60, 62, 64, 64, 64, 62, 62, 62, 64, 67, 67, 64, 62, 60, 62, 64, 64, 64, 64, 62, 62, 64, 62, 60};
+		//for each order we provide first few elements for the generation
+		for (int j = 0; j < order; j++)
+		{
+			Random rand = new Random();
+			// nextInt as provided by Random is exclusive of the top value so you need to add 1 
+			int randomNum = rand.nextInt((30 - 0) + 1) + 0;
+			temp[j] = arr[randomNum];
+		}
+		MarkovOrderOfM<Integer> train2 = new MarkovOrderOfM<Integer>();
+		train2.train(midiNotes.pitches, order);
+		int j = 0;
+		//Loop through 10,000 times
+		while(j<10000)
+		{
+			ArrayList<Integer> t = new ArrayList(Arrays.asList(temp));
+			//we generate melodies length of 20 for 10000 times
+			ArrayList<Integer> a = train2.generate(t, 20, order);
+			//we use the generated melodies for training in masterPitches
+			masterPitch.train(a, order);
+			j++;
+		}
+		System.out.println();
+		System.out.println("Order of "+order);
+		masterPitch.printProbabilitiesTable(order);
+		
+		
+	}
 }
 

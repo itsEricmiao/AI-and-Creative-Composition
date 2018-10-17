@@ -146,6 +146,7 @@ public class MarkovOrderOfM<E>
 		}
 		else if(!alphabet.contains(key))
 		{
+			System.out.println("Cannot locare the key");
 			val = 2;
 		}
 		return data.get(val);
@@ -154,6 +155,7 @@ public class MarkovOrderOfM<E>
 	//For the generate function, user provide the init ArrayList and the size of output array
 	ArrayList<E> generate(ArrayList<E>init, int size, int order)
 	{
+		
 		//outputArr stores all the generated melodies
 		ArrayList<E> outputArr = new ArrayList<E>();
 		outputArr.addAll(init);
