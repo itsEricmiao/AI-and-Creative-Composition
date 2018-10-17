@@ -145,18 +145,11 @@ public class MarkovOrderOfM<E>
 					val = left-1;
 				}
 			} 
-//			for(int i = 0; i < chain.length; i++)
-//			{
-//				System.out.print(alphabet.get(index) + "  " +chain[i]+ " ");;
-//			}
-//			System.out.println("");
-			
-			//System.out.println("the val is "+chain[val]+ ", the random number is "+randomNum);
 		}
 		
 		else if(!alphabet.contains(key))
 		{
-			System.out.println("Cannot locate the key");
+			//System.out.println("Cannot locate the key");
 			val = 0;
 		}
 		

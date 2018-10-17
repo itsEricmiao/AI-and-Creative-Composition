@@ -318,10 +318,12 @@ public class holaThis extends PApplet {
 		
 		if (key == 'c') {
 			funcCA();	
-			funcCB();	
+			//funcCB();	
 		}
+		//Test Function
 		if (key == 't') {
-			funcT();
+			funcCB();	
+			//funcT();
 		}
 	}
 	
@@ -340,7 +342,7 @@ public class holaThis extends PApplet {
 			train.printProbabilitiesTable(i);
 			System.out.println(""); 	
 		}
-		
+
 		System.out.println(" "); 	
 		System.out.println("Rhythms:");
 		for(int i = 1; i <= 10; i++)
@@ -536,7 +538,6 @@ public class holaThis extends PApplet {
 		System.out.println();
 		System.out.println("UNIT TEST 3");
 		System.out.println("---------------------PITCHES--------------------");
-		
 		for(int order = 1; order <= 10; order ++ )
 		{
 			//MasterPitch will store each order of 10,000 melodies of length 20
@@ -544,26 +545,31 @@ public class holaThis extends PApplet {
 			//temp array contains the initial elements for the generation
 			Integer[] temp = new Integer[order];
 			Integer[] arr = {64, 62, 60, 62, 64, 64, 64, 62, 62, 62, 64, 67, 67, 64, 62, 60, 62, 64, 64, 64, 64, 62, 62, 64, 62, 60, -2147483648, 62, 64, 62, 60, 62, 64, 64, 64, 62, 62, 62, 64, 67, 67, 64, 62, 60, 62, 64, 64, 64, 64, 62, 62, 64, 62, 60};
+			ArrayList<Integer> all = new ArrayList();
 			//for each order we provide first few elements for the generation
-			for (int i = 0; i < order; i++)
-			{
-				temp[i] = arr[i];
-			}
 			MarkovOrderOfM<Integer> train = new MarkovOrderOfM<Integer>();
 			train.train(midiNotes.pitches, order);
 			int j = 0;
 			//Loop through 10,000 times
 			while(j<10000)
 			{
+				for (int x = 0; x < order; x++)
+				{
+					Random rand = new Random();
+					//nextInt as provided by Random is exclusive of the top value so you need to add 1 
+					int randomNum = rand.nextInt((53 - 0) + 1) + 0;
+					temp[x] = arr[randomNum];
+				}
 				ArrayList<Integer> t = new ArrayList(Arrays.asList(temp));
 				//we generate melodies length of 20 for 10000 times
 				ArrayList<Integer> a = train.generate(t, 20, order);
 				//we use the generated melodies for training in masterPitches
-				masterPitch.train(a, order);
+				all.addAll(a);
 				j++;
 			}
 			System.out.println();
 			System.out.println("Order of "+order);
+			masterPitch.train(all, order);
 			masterPitch.printProbabilitiesTable(order);
 		}
 		
@@ -580,6 +586,7 @@ public class holaThis extends PApplet {
 				//temp array contains the initial elements for the generation
 				Double[] temp = new Double[order];
 				Double[] arr = {1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 2.0, 1.0, 1.0, 2.0, 1.0, 1.0, 2.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 2.0, 1.0, 1.0, 1.5, 0.5, 1.0, 1.0, 1.0, 1.0, 2.0, 1.0, 1.0, 2.0, 1.0, 1.0, 2.0, 1.5, 0.5, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 4.0};
+				ArrayList<Double> all = new ArrayList();
 				//for each order we provide first few elements for the generation
 				for (int i = 0; i < order; i++)
 				{
@@ -596,15 +603,18 @@ public class holaThis extends PApplet {
 						//we generate melodies length of 20 for 10000 times
 						ArrayList<Double> a = train.generate(t, 20, order);
 						//we use the generated melodies for training in masterRhythms
-						masterRhythms.train(a, order);
+						all.addAll(a);
 						j++;
 					}
 					System.out.println();
 					System.out.println("Order of "+order);
+					masterRhythms.train(all, order);
 					masterRhythms.printProbabilitiesTable(order);
 			}
 	}
 	
+	
+	//Test function....Plz ignore
 	public void funcT()
 	{
 		int i = 1;
@@ -641,19 +651,17 @@ public class holaThis extends PApplet {
 				//nextInt as provided by Random is exclusive of the top value so you need to add 1 
 				int randomNum = rand.nextInt((53 - 0) + 1) + 0;
 				temp[j] = arr[randomNum];
-				//System.out.println(temp[j]);
 			}
+			
 			ArrayList<Integer> t = new ArrayList(Arrays.asList(temp));
 			//we generate melodies length of 20 for 10000 times
 			ArrayList<Integer> a = train2.generate(t, 20, order);
-			//System.out.println(a);
 			//we use the generated melodies for training in masterPitches
 			all.addAll(a);
 			loop++;
 		}
 		masterPitch.train(all, order);
 		masterPitch.printProbabilitiesTable(order);
-		//masterPitch.printTransitionTable(order);
 		
 		
 	}
