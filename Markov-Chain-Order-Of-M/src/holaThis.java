@@ -310,20 +310,19 @@ public class holaThis extends PApplet {
 		}
 		
 		if (key == 'b') {
-			funcBA();	
-		}
-		if (key == 'd') {
 			funcBB();
+			funcBC();
 		}
-		
+
 		if (key == 'c') {
 			funcCA();	
-			//funcCB();	
+			funcCB();	
 		}
+		
 		//Test Function
 		if (key == 't') {
-			funcCB();	
-			//funcT();
+			//funcCB();	
+			funcT();
 		}
 	}
 	
@@ -356,6 +355,8 @@ public class holaThis extends PApplet {
 		}
 	}
 	
+	//Print out the Unit test 2 function
+		//Function B will print out the next pitch and rhythm from Marov Chain order of 1 to 10
 	public void funcBB()
 	{
 		System.out.println("---------------------PITCHES--------------------");
@@ -364,24 +365,39 @@ public class holaThis extends PApplet {
 			MarkovOrderOfM<Integer> train1 = new MarkovOrderOfM<Integer>();
 			train1.train(midiNotes.pitches, i);
 			Integer[] temp1 = {62, 60, 62, 64, 64, 64, 62, 62, 62, 64};
+			ArrayList<Integer> temp = new ArrayList();
+			ArrayList<Integer> output = new ArrayList();
 			ArrayList<Integer> t1 = new ArrayList(Arrays.asList(temp1));
-			System.out.println("Order of "+i+": Input note is " + t1 + "  Predicted note is: "+train1.generate(t1, 20, i));
+			temp = train1.generate(t1, 20+i, i);
+			for(int j = i; j<20+i; j++)
+			{
+				output.add(temp.get(j));
+			}
+			System.out.println("Order of "+i+ "  Predicted pitches are: "+output);
 		}
-		
+	}
+	public void funcBC()
+	{
 		System.out.println("---------------------RHYTHMS--------------------");
-		for(int i = 1; i <= 10; i ++)
+		for(int i = 1; i <= 10; i++)
 		{
 			MarkovOrderOfM<Double> train11 = new MarkovOrderOfM<Double>();
 			train11.train(midiNotes.rhythms, i);
 			Double[] temp11 = {1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 2.0, 1.0, 1.0, 2.0};
+			ArrayList<Double> temp = new ArrayList();
+			ArrayList<Double> output = new ArrayList();
 			ArrayList<Double> t11 = new ArrayList(Arrays.asList(temp11));
-			System.out.println("Order of "+i+": Input note is " + t11 + "  Predicted note is: "+train11.generate(t11, 20, i));
+			temp = train11.generate(t11, 20+i, i);
+			for(int j = i; j<20+i; j++)
+			{
+				output.add(temp.get(j));
+			}
+			System.out.println("Order of "+i+ "  Predicted rhythms are: "+output);
 		}
 	}
 	
 	
-	//Print out the Unit test 2 function
-	//Function B will print out the next pitch and rhythm from Marov Chain order of 1 to 10
+	//Ignore this function
 	public void funcBA()
 	{
 		System.out.println();
