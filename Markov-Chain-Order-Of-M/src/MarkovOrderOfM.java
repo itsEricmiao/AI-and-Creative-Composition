@@ -1,5 +1,6 @@
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 //Markov process is a stochastic process whose future is independent of its past given its present state.
 public class MarkovOrderOfM<E> 
@@ -19,7 +20,7 @@ public class MarkovOrderOfM<E>
 	{
 //Create the alphabet array
 		for (int i = 0; i < members.size()-order; i++) {
-			ArrayList<E>temp = new ArrayList<E>(members.subList(i, i+order));
+			ArrayList<E> temp = new ArrayList<E>(members.subList(i, i+order));
 			if(!alphabet.contains(temp))
 			{
 				alphabet.add(temp);
@@ -88,7 +89,7 @@ public class MarkovOrderOfM<E>
 			System.out.println("");
 		}
 	}
-	
+
 	
 	void printProbabilitiesTable(int order)
 	{
@@ -118,7 +119,7 @@ public class MarkovOrderOfM<E>
 	//For the generateNote function, user provide the init ArrayList and the function will return the predicted next note
 	E generateNote(ArrayList<E> key)
 	{
-		float chain[] = new float [data.size()];
+		double chain[] = new double[data.size()];
 		
 		int index;
 		int val = 0;
@@ -135,20 +136,30 @@ public class MarkovOrderOfM<E>
 			{
 				chain[i] = chain[i-1] + probabilitiesTable[index][i-1];
 			}
+			
 			//Find the area in the chain array
-			for(int left = 0; left < data.size()-1; left++)
+			for(int left = 1; left < data.size(); left++)
 			{
-				if(chain[left] < randomNum && chain[left+1] > randomNum)
+				if(chain[left-1] < randomNum && chain[left] > randomNum)
 				{
-					val = left;
+					val = left-1;
 				}
-			}
+			} 
+//			for(int i = 0; i < chain.length; i++)
+//			{
+//				System.out.print(alphabet.get(index) + "  " +chain[i]+ " ");;
+//			}
+//			System.out.println("");
+			
+			//System.out.println("the val is "+chain[val]+ ", the random number is "+randomNum);
 		}
+		
 		else if(!alphabet.contains(key))
 		{
-			System.out.println("Cannot locare the key");
-			val = 2;
+			System.out.println("Cannot locate the key");
+			val = 0;
 		}
+		
 		return data.get(val);
 	}
 	
@@ -161,7 +172,7 @@ public class MarkovOrderOfM<E>
 		outputArr.addAll(init);
 		E nextNote;
 		//The function will generate until it reaches the size we want
-		while(outputArr.size() < size)
+		while(outputArr.size() <= size)
 		{
 			//trainArr stores all the melodies (size of M) that are ready to use for generation
 			ArrayList<E> trainArr = new ArrayList<E>();
