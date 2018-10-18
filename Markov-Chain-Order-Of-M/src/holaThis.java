@@ -213,12 +213,11 @@ public class holaThis extends PApplet {
 
 }
 	public void settings() {
-		
-		size(800, 800);
-		  // The background image must be the same size as the parameters
-		  // into the size() method. In this program, the size of the image
-		  // is 640 x 360 pixels.
-		  //	bg = loadImage("music.pdg");
+		size(900, 800);
+		// The background image must be the same size as the parameters
+		// into the size() method. In this program, the size of the image
+		// is 640 x 360 pixels.
+	    bg = loadImage("music.pdg");
 	}
 
 	public void setup() {
@@ -227,10 +226,9 @@ public class holaThis extends PApplet {
 		String filePath = getPath("/mid/MaryHadALittleLamb.mid"); 
 		//String filePath = getPath("/mid/Love_Me_Tender.mid"); 
 		//String filePath = getPath("/mid/la_cumparsita.mid");
-		
 		//playMidiFile(filePath); //THIS ACTUALLY PLAYS THE FILE
-
 		//gets all the midi notes from existing files
+		
 		midiNotes = new MidiFileToNotes(filePath);
 
 		// which line
@@ -265,10 +263,10 @@ public class holaThis extends PApplet {
 	public void draw() {
 		
 		float x = width/10;
-		float y = height/6;
-		float w = width*5/7;
-		float h = 80;
-		//background(255,106,250);
+		float y = height/8;
+		float w = width*8/10;
+		float h = 90;
+		//background(bg);
 		
 		fill(0); 
 		rect(x,y,w,h);
@@ -298,10 +296,11 @@ public class holaThis extends PApplet {
 		text("Pressed key 'P' to play new music ",x+30,5*y+50);
 		fill(255);
 		
-		
-		player.play();
+		if(key == 'p')
+		{
+			player.play();
+		}
 		//some boolean that triggers this
-		
 	}
 	
 	public void playGenFile()
