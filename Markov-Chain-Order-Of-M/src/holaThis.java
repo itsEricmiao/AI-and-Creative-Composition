@@ -218,16 +218,17 @@ public class holaThis extends PApplet {
 		  // The background image must be the same size as the parameters
 		  // into the size() method. In this program, the size of the image
 		  // is 640 x 360 pixels.
-	//	bg = loadImage("music.pdg");
+		  //	bg = loadImage("music.pdg");
 	}
 
 	public void setup() {
 		background(135,106,250);
 		//background(bg);
 		String filePath = getPath("/mid/MaryHadALittleLamb.mid"); 
+		//String filePath = getPath("/mid/Love_Me_Tender.mid"); 
 		//String filePath = getPath("/mid/la_cumparsita.mid");
 		
-		playMidiFile(filePath); //THIS ACTUALLY PLAYS THE FILE
+		//playMidiFile(filePath); //THIS ACTUALLY PLAYS THE FILE
 
 		//gets all the midi notes from existing files
 		midiNotes = new MidiFileToNotes(filePath);
@@ -290,7 +291,58 @@ public class holaThis extends PApplet {
 		fill(255);
 		text("UNIT TEST 3-B: Pressed key 'D' to see the probabilities of pitches and rhythms from dataset order of 5-10",x+30,4*y+50);
 		fill(255);
-		//player.play();
+		
+		player.play();
+		//some boolean that triggers this
+		
+	}
+	
+	public void playGenFile()
+	{
+		System.out.println("Playing crap");
+		String filePath = getPath("/mid/la_cumparsita.mid");
+		//gets all the midi notes from existing files
+		MidiFileToNotes midiNotes2 = new MidiFileToNotes(filePath);
+
+		// which line
+		midiNotes2.setWhichLine(0);
+		//create generator then train and generator
+		int i = 1;
+		//create pitches
+		MarkovOrderOfM<Integer> train1 = new MarkovOrderOfM<Integer>();
+		train1.train(midiNotes.pitches, i);
+		Integer[] temp1 = {64, -2147483648, 74, -2147483648, 71, -2147483648, 68, -2147483648, 52, 64, 65, 64, 63, 64, 64, -2147483648, 76, -2147483648, 72};
+		ArrayList<Integer> temp = new ArrayList();
+		ArrayList<Integer> output = new ArrayList();
+		ArrayList<Integer> t1 = new ArrayList(Arrays.asList(temp1));
+		temp = train1.generate(t1, 40+i, i);
+		for(int j = i; j<40+i; j++)
+		{
+			output.add(temp.get(j));
+		}
+		
+		i = 1;
+		//create rhythms:
+		MarkovOrderOfM<Double> train11 = new MarkovOrderOfM<Double>();
+		train11.train(midiNotes.rhythms, i);
+		Double[] temp11 = {0.546875, 0.453125, 0.546875, 0.453125, 0.546875, 0.453125, 0.546875, 0.453125, 0.546875, 0.5, 0.5, 0.5, 1.0, 0.8359375, 0.546875, 0.453125};
+		ArrayList<Double> tempR = new ArrayList();
+		ArrayList<Double> outputR = new ArrayList();
+		ArrayList<Double> tR = new ArrayList(Arrays.asList(tempR));
+		tempR = train11.generate(tR, 40+i, i);
+		for(int j = i; j<40+i; j++)
+		{
+			outputR.add(tempR.get(j));
+		}
+		
+		//midiNotes.processPitchesAsTokens();
+		player = new MelodyPlayer(this, 100.0f);
+		player.setup();
+		System.out.print(output);
+		System.out.println();
+		System.out.print(outputR);
+		player.setMelody(output);
+		player.setRhythm(outputR);
 	}
 
 	String getPath(String path) { //accesses resources
@@ -332,6 +384,10 @@ public class holaThis extends PApplet {
 		if (key == 'd') {
 			funcCC();	
 			funcCD();	
+		}
+		if(key == 'p') {
+			playGenFile();
+			
 		}
 	}
 	
@@ -765,6 +821,8 @@ public class holaThis extends PApplet {
 		}
 		masterPitch.train(all, order);
 		masterPitch.printProbabilitiesTable(order);
+		
+		
 		
 		
 	}
