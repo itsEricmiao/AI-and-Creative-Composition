@@ -264,22 +264,31 @@ public class holaThis extends PApplet {
 	public void draw() {
 		
 		float x = width/10;
-		float y = height/5;
-		float w = width*4/5;
+		float y = height/6;
+		float w = width*5/6;
 		float h = 80;
 		background(255,106,250);
+		
 		fill(0); 
 		rect(x,y,w,h);
 		fill(255); 
 		text("Pressed key 'A' to see the transition table for the test melody",x+30,y+50);
+		
 		fill(0); 
 		rect(x,2*y,w,h);
 		fill(255);
 		text("Pressed key 'B' to see the genrated melody notes",x+30,2*y+50);
+		
 		fill(0); 
 		rect(x,3*y,w,h);
 		fill(255);
-		text("Pressed key 'C' to see the probabilities of pitches and rhythms from dataset",x+30,3*y+50);
+		text("Pressed key 'C' to see the probabilities of pitches and rhythms from dataset order of 1-5",x+30,3*y+50);
+		fill(255);
+		
+		fill(0); 
+		rect(x,4*y,w,h);
+		fill(255);
+		text("Pressed key 'D' to see the probabilities of pitches and rhythms from dataset order of 5-10",x+30,4*y+50);
 		fill(255);
 		//player.play();
 	}
@@ -320,9 +329,9 @@ public class holaThis extends PApplet {
 		}
 		
 		//Test Function
-		if (key == 't') {
-			//funcCB();	
-			funcT();
+		if (key == 'd') {
+			funcCC();	
+			funcCD();	
 		}
 	}
 	
@@ -554,7 +563,7 @@ public class holaThis extends PApplet {
 		System.out.println();
 		System.out.println("UNIT TEST 3");
 		System.out.println("---------------------PITCHES--------------------");
-		for(int order = 1; order <= 10; order ++ )
+		for(int order = 1; order <= 5; order ++ )
 		{
 			//MasterPitch will store each order of 10,000 melodies of length 20
 			MarkovOrderOfM<Integer> masterPitch = new MarkovOrderOfM<Integer>();
@@ -595,7 +604,7 @@ public class holaThis extends PApplet {
 	{
 			System.out.println();
 			System.out.println("---------------------RHYTHMS--------------------");
-			for(int order = 1; order <= 10; order ++ )
+			for(int order = 1; order <= 5; order ++ )
 			{
 				//MasterPitch will store each order of 10,000 melodies of length 20
 				MarkovOrderOfM<Double> masterRhythms = new MarkovOrderOfM<Double>();
@@ -629,6 +638,84 @@ public class holaThis extends PApplet {
 			}
 	}
 	
+	public void funcCC()
+	{
+		System.out.println();
+		System.out.println("UNIT TEST 3");
+		System.out.println("---------------------PITCHES--------------------");
+		for(int order = 5; order <= 10; order ++ )
+		{
+			//MasterPitch will store each order of 10,000 melodies of length 20
+			MarkovOrderOfM<Integer> masterPitch = new MarkovOrderOfM<Integer>();
+			//temp array contains the initial elements for the generation
+			Integer[] temp = new Integer[order];
+			Integer[] arr = {64, 62, 60, 62, 64, 64, 64, 62, 62, 62, 64, 67, 67, 64, 62, 60, 62, 64, 64, 64, 64, 62, 62, 64, 62, 60, -2147483648, 62, 64, 62, 60, 62, 64, 64, 64, 62, 62, 62, 64, 67, 67, 64, 62, 60, 62, 64, 64, 64, 64, 62, 62, 64, 62, 60};
+			ArrayList<Integer> all = new ArrayList();
+			//for each order we provide first few elements for the generation
+			MarkovOrderOfM<Integer> train = new MarkovOrderOfM<Integer>();
+			train.train(midiNotes.pitches, order);
+			int j = 0;
+			//Loop through 10,000 times
+			while(j<10000)
+			{
+				for (int x = 0; x < order; x++)
+				{
+					Random rand = new Random();
+					//nextInt as provided by Random is exclusive of the top value so you need to add 1 
+					int randomNum = rand.nextInt((53 - 0) + 1) + 0;
+					temp[x] = arr[randomNum];
+				}
+				ArrayList<Integer> t = new ArrayList(Arrays.asList(temp));
+				//we generate melodies length of 20 for 10000 times
+				ArrayList<Integer> a = train.generate(t, 20, order);
+				//we use the generated melodies for training in masterPitches
+				all.addAll(a);
+				j++;
+			}
+			System.out.println();
+			System.out.println("Order of "+order);
+			masterPitch.train(all, order);
+			masterPitch.printProbabilitiesTable(order);
+		}
+	}
+	
+	public void funcCD()
+	{
+		System.out.println();
+		System.out.println("---------------------RHYTHMS--------------------");
+		for(int order = 5; order <= 10; order ++ )
+		{
+			//MasterPitch will store each order of 10,000 melodies of length 20
+			MarkovOrderOfM<Double> masterRhythms = new MarkovOrderOfM<Double>();
+			//temp array contains the initial elements for the generation
+			Double[] temp = new Double[order];
+			Double[] arr = {1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 2.0, 1.0, 1.0, 2.0, 1.0, 1.0, 2.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 2.0, 1.0, 1.0, 1.5, 0.5, 1.0, 1.0, 1.0, 1.0, 2.0, 1.0, 1.0, 2.0, 1.0, 1.0, 2.0, 1.5, 0.5, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 4.0};
+			ArrayList<Double> all = new ArrayList();
+			//for each order we provide first few elements for the generation
+			for (int i = 0; i < order; i++)
+			{
+				temp[i] = arr[i];
+			}
+				MarkovOrderOfM<Double> train = new MarkovOrderOfM<Double>();
+				train.train(midiNotes.rhythms, order);
+				int j = 0;
+				//Loop through 10,000 times
+				while(j<10000)
+				{
+					
+					ArrayList<Double> t = new ArrayList(Arrays.asList(temp));
+					//we generate melodies length of 20 for 10000 times
+					ArrayList<Double> a = train.generate(t, 20, order);
+					//we use the generated melodies for training in masterRhythms
+					all.addAll(a);
+					j++;
+				}
+				System.out.println();
+				System.out.println("Order of "+order);
+				masterRhythms.train(all, order);
+				masterRhythms.printProbabilitiesTable(order);
+		}
+	}
 	
 	//Test function....Plz ignore
 	public void funcT()
@@ -659,7 +746,7 @@ public class holaThis extends PApplet {
 		int loop = 0;
 		ArrayList<Integer> all = new ArrayList();
 		//Loop through 10,000 times
-		while(loop<100000)
+		while(loop<10000)
 		{
 			for (int j = 0; j < order; j++)
 			{
