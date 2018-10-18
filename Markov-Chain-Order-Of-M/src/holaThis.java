@@ -267,28 +267,28 @@ public class holaThis extends PApplet {
 		float y = height/6;
 		float w = width*5/6;
 		float h = 80;
-		background(255,106,250);
+		//background(255,106,250);
 		
 		fill(0); 
 		rect(x,y,w,h);
 		fill(255); 
-		text("Pressed key 'A' to see the transition table for the test melody",x+30,y+50);
+		text("UNIT TEST 1: Pressed key 'A' to see the transition table for the test melody",x+30,y+50);
 		
 		fill(0); 
 		rect(x,2*y,w,h);
 		fill(255);
-		text("Pressed key 'B' to see the genrated melody notes",x+30,2*y+50);
+		text("UNIT TEST 2: Pressed key 'B' to see the genrated melody notes",x+30,2*y+50);
 		
 		fill(0); 
 		rect(x,3*y,w,h);
 		fill(255);
-		text("Pressed key 'C' to see the probabilities of pitches and rhythms from dataset order of 1-5",x+30,3*y+50);
+		text("UNIT TEST 3-A: Pressed key 'C' to see the probabilities of pitches and rhythms from dataset order of 1-5",x+30,3*y+50);
 		fill(255);
 		
 		fill(0); 
 		rect(x,4*y,w,h);
 		fill(255);
-		text("Pressed key 'D' to see the probabilities of pitches and rhythms from dataset order of 5-10",x+30,4*y+50);
+		text("UNIT TEST 3-B: Pressed key 'D' to see the probabilities of pitches and rhythms from dataset order of 5-10",x+30,4*y+50);
 		fill(255);
 		//player.play();
 	}
