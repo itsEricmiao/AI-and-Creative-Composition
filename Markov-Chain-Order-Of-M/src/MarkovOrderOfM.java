@@ -131,9 +131,11 @@ public class MarkovOrderOfM<E>
 			double randomNum = Math.random();
 			chain[0] = 0;
 			
-			//Make the chain array
+			//Make the chain array, the chain array has value from 0.0-1.0.
+			//We use random number generator to generate a random number between 0-1 and we use the index from the random number locate in the chain array
 			for(int i = 1; i < data.size(); i++)
-			{
+			{	
+				//Each chain element equals the probabilities of chain[i-1] + probabilities[i]
 				chain[i] = chain[i-1] + probabilitiesTable[index][i-1];
 			}
 			
@@ -147,8 +149,10 @@ public class MarkovOrderOfM<E>
 			} 
 		}
 		
+		//If the alphabey array does not contain the key, we provide the 0 as the index value
 		else if(!alphabet.contains(key))
 		{
+			
 			//System.out.println("Cannot locate the key");
 			val = 0;
 		}
@@ -172,9 +176,12 @@ public class MarkovOrderOfM<E>
 			//We use the last M number of outputArr to generate the next melodies 
 			for(int i = outputArr.size()-order; i < outputArr.size(); i++)
 			{
+				//Each time we use the last M elements to generate the new note
 				trainArr.add(outputArr.get(i));
 			}
+				//Getting next nite through trainArr
 				nextNote = generateNote(trainArr);
+				//Add the generated note into the output array
 				outputArr.add(nextNote);
 				//Clean the trainArr each time we generate a new melody
 				trainArr.clear();
