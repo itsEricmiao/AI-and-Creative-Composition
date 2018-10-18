@@ -214,7 +214,7 @@ public class holaThis extends PApplet {
 }
 	public void settings() {
 		
-		size(900, 500);
+		size(800, 800);
 		  // The background image must be the same size as the parameters
 		  // into the size() method. In this program, the size of the image
 		  // is 640 x 360 pixels.
@@ -266,7 +266,7 @@ public class holaThis extends PApplet {
 		
 		float x = width/10;
 		float y = height/6;
-		float w = width*5/6;
+		float w = width*5/7;
 		float h = 80;
 		//background(255,106,250);
 		
@@ -291,6 +291,13 @@ public class holaThis extends PApplet {
 		fill(255);
 		text("UNIT TEST 3-B: Pressed key 'D' to see the probabilities of pitches and rhythms from dataset order of 5-10",x+30,4*y+50);
 		fill(255);
+		
+		fill(0); 
+		rect(x,5*y,w,h);
+		fill(255);
+		text("Pressed key 'P' to play new music ",x+30,5*y+50);
+		fill(255);
+		
 		
 		player.play();
 		//some boolean that triggers this
@@ -387,7 +394,6 @@ public class holaThis extends PApplet {
 		}
 		if(key == 'p') {
 			playGenFile();
-			
 		}
 	}
 	
