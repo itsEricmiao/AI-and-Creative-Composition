@@ -2,35 +2,74 @@ import java.util.*;
 public class PSTNode<E> {
 
 	private ArrayList<PSTNode> children = new <PSTNode> ArrayList();
-	private E value;
-	
-	PSTNode()
-	{
-		
-	}
+	private ArrayList<E> word;
+	private int length;
 
-	PSTNode(E input)
+	PSTNode(int size)	//default constructor
 	{
 		ArrayList<PSTNode> children = new <PSTNode> ArrayList();
-		value = input;
+		length = size;
 	}
 
-	E getVal()
+	ArrayList<E> getVal()	//getter for value of node
 	{
-		return value;
+		return word;
 	}
 
-	void addChild(PSTNode child)
+	void addToTree(ArrayList<E> input)	//addNode function
 	{
-		children.add(child);
+		for(int i = 0; i < length; i++)
+		{
+			for(int j = 0; j < input.size()-i; j++)
+			{
+				ArrayList<E> temp = new ArrayList<E>(input.subList(j, j+i));
+				System.out.println(temp);
+			}
+			
+		}
 	}
 
-	void print()
+	boolean addNote(PSTNode child)
+	{
+		boolean found = ifFound(child.word);
+		if(found == false && (child.isSuffix(word) == true || child.word.size() == 0))
+		{
+			for(int i = 0; i < children.size(); i++)
+			{
+				found = children.get(i).addNote(child);
+				return true;
+			}
+			
+		}
+		if(found == false && word.size() == child.word.size()-1)
+		{
+			children.add(child);
+			return true;
+		}
+		return false;
+	}
+	
+	void print()	//Print function for testing
 	{
 		
 	}
-
 	
-
-
+	boolean ifFound(ArrayList<E> input)
+	{
+		for(int i = 0; i < children.size(); i++)
+		{
+			if(input == children.get(i).word)
+			{
+				return true;
+			}
+		}
+		return false;
+	}
+	
+	boolean isSuffix(ArrayList<E> input)
+	{
+		//compare the size first
+		return false;
+		
+	}
 }
