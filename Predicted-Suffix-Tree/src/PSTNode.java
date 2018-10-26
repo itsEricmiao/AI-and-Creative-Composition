@@ -29,18 +29,16 @@ public class PSTNode<E> {
 			{
 				ArrayList<E> temp = new ArrayList<E>(input.subList(j, j+i));
 				PSTNode<E> newNode = new PSTNode(temp);
+				System.out.println(temp);
 				
 				//Create the level 1 nodes: abrdc
 				if(newNode.word.size() == 1 && isLevel1Node(newNode) == true)
 				{
-					System.out.println(newNode.word);
-					children.add(newNode);
+					children.add(newNode); //If size == 1 (abcdr). Add to the children array
 				}
 				else if(newNode.word.size() > 1 && isSuffix(newNode.word) == true)
 				{
-					
-					addToNode(newNode);
-					
+					addToNode(newNode); //Final step, add to the node
 				}
 			}
 		}
@@ -48,20 +46,23 @@ public class PSTNode<E> {
 
 	void addToNode(PSTNode child)
 	{
-		System.out.println("Child is "+ child.word + " Index is = " + index);
 		PSTNode temp = children.get(index);
-		temp.children.add(child);
-		children.add(temp);
+		children.remove(index);
+		if(isFound(child.word) == false)
+		{
+			temp.children.add(child);
+			children.add(temp);
+		}
 	}
 	
 	void print()	//Print function for testing
 	{
 		for(int i = 0; i < children.size(); i++)
 		{
-			System.out.println(children.get(i).word);
+			System.out.println("-->"+children.get(i).word);
 			for(int j = 0; j < children.get(i).children.size(); j++)
 			{
-				System.out.println(children.get(i).children.get(j).word);
+				System.out.println("   -->"+children.get(i).children.get(j).word);
 			}
 		}
 	}
@@ -79,17 +80,19 @@ public class PSTNode<E> {
 		return true;
 	}
 
+	boolean isFound(ArrayList<E> val)
+	{
+		
+		return false;
+	}
 	
 	boolean isSuffix(ArrayList<E> input)
 	{
 		ArrayList<E> temp = new ArrayList<E>();
-		//System.out.println(input);
 		for(int i = input.size()-length+1; i < input.size(); i++)
 		{
 			temp.add(input.get(i));
 		}
-		
-		
 		for (int i = 0; i < children.size(); i ++)
 		{
 			if(children.get(i).word.equals(temp) == true)
