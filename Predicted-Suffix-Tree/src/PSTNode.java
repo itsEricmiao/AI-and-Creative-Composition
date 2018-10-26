@@ -58,7 +58,11 @@ public class PSTNode<E> {
 	{
 		for(int i = 0; i < children.size(); i++)
 		{
-			//System.out.println(children.get(i).word);
+			System.out.println(children.get(i).word);
+			for(int j = 0; j < children.get(i).children.size(); j++)
+			{
+				System.out.println(children.get(i).children.get(j).word);
+			}
 		}
 	}
 	
