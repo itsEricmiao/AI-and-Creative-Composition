@@ -104,13 +104,11 @@ public class PSTNode<E> {
 				return true;
 			}
 			
-			System.out.println("children word = " + newNode.getWord(i) + " and the value is = " + val);
+			//System.out.println("children word = " + newNode.getWord(i) + " and the value is = " + val);
 			if(newNode.getWord(i).equals(val))
 			{
-				System.out.println("DO not add");
 				return true;
 			}
-			System.out.println();
 		}
 		
 		addNote(newNode,val);
