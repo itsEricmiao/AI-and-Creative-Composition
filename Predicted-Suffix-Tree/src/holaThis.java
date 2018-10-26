@@ -22,7 +22,7 @@ public class holaThis extends PApplet {
 	// TODO Auto-generated method stub
 	PApplet.main("holaThis");
 	
-	PSTNode<String> root = new PSTNode<String> (3);
+	PSTNode<String> root = new PSTNode<String>(2);
 	String[] str = {"a","b","r","a","c","a","d","a","b","r","a"};
 	ArrayList<String> data = new ArrayList(Arrays.asList(str));
 	root.addToTree(data);

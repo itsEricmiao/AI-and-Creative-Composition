@@ -1,74 +1,99 @@
 import java.util.*;
 public class PSTNode<E> {
 
-	private ArrayList<PSTNode> children = new <PSTNode> ArrayList();
+	private ArrayList<PSTNode<E>> children = new ArrayList<PSTNode<E>>();
 	private ArrayList<E> word;
 	private int length;
-
-	PSTNode(int size)	//default constructor
+	private int index = 0;
+	
+	PSTNode() 
 	{
-		ArrayList<PSTNode> children = new <PSTNode> ArrayList();
-		length = size;
-	}
-
-	ArrayList<E> getVal()	//getter for value of node
+        
+    }
+	
+	PSTNode(int order) 
 	{
-		return word;
-	}
+        length = order;
+    }
+	
+	PSTNode(ArrayList<E> input) 
+	{
+        word = input;
+    }
 
 	void addToTree(ArrayList<E> input)	//addNode function
 	{
-		for(int i = 0; i < length; i++)
+		for(int i = 0; i <= length; i++)
 		{
 			for(int j = 0; j < input.size()-i; j++)
 			{
 				ArrayList<E> temp = new ArrayList<E>(input.subList(j, j+i));
-				System.out.println(temp);
+				PSTNode<E> newNode = new PSTNode(temp);
+				
+				//Create the level 1 nodes: abrdc
+				if(newNode.word.size() == 1 && isLevel1Node(newNode) == true)
+				{
+					System.out.println(newNode.word);
+					children.add(newNode);
+				}
+				else if(newNode.word.size() > 1 && isSuffix(newNode.word) == true)
+				{
+					
+					addToNode(newNode);
+					
+				}
 			}
-			
 		}
 	}
 
-	boolean addNote(PSTNode child)
+	void addToNode(PSTNode child)
 	{
-		boolean found = ifFound(child.word);
-		if(found == false && (child.isSuffix(word) == true || child.word.size() == 0))
-		{
-			for(int i = 0; i < children.size(); i++)
-			{
-				found = children.get(i).addNote(child);
-				return true;
-			}
-			
-		}
-		if(found == false && word.size() == child.word.size()-1)
-		{
-			children.add(child);
-			return true;
-		}
-		return false;
+		System.out.println("Child is "+ child.word + " Index is = " + index);
+		PSTNode temp = children.get(index);
+		temp.children.add(child);
+		children.add(temp);
 	}
 	
 	void print()	//Print function for testing
 	{
-		
-	}
-	
-	boolean ifFound(ArrayList<E> input)
-	{
 		for(int i = 0; i < children.size(); i++)
 		{
-			if(input == children.get(i).word)
+			//System.out.println(children.get(i).word);
+		}
+	}
+	
+	//This function is for level 1 of the PST tree (size of the node == 1)
+	boolean isLevel1Node(PSTNode level1Node)
+	{
+		for (int i = 0; i < children.size(); i ++)
+		{
+			if(children.get(i).word.equals(level1Node.word) == true)
 			{
-				return true;
+				return false;
 			}
 		}
-		return false;
+		return true;
 	}
+
 	
 	boolean isSuffix(ArrayList<E> input)
 	{
-		//compare the size first
+		ArrayList<E> temp = new ArrayList<E>();
+		//System.out.println(input);
+		for(int i = input.size()-length+1; i < input.size(); i++)
+		{
+			temp.add(input.get(i));
+		}
+		
+		
+		for (int i = 0; i < children.size(); i ++)
+		{
+			if(children.get(i).word.equals(temp) == true)
+			{
+				index = i;
+				return true;
+			}
+		}
 		return false;
 		
 	}
