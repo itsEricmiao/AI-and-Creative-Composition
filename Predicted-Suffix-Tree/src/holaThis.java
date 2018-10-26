@@ -35,6 +35,7 @@ public class holaThis extends PApplet {
 		unitTest2();
 		unitTest3();
 		unitTest4_Pitches();
+		unitTest4_Rhythms();
 		exit();
 	}
 	
