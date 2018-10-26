@@ -110,7 +110,6 @@ public class PSTNode<E> {
 	//Print function for testing
 	void print(int time)	
 	{
-		
 		for(int i = 0; i < children.size(); i++)
 		{
 			printSpace(children.get(i).word.size());
