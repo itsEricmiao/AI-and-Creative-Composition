@@ -155,7 +155,7 @@ public class holaThis extends PApplet {
 
 	public void unitTest4_Pitches()
 	{
-		String filePath = getPath("/mid/Love_Me_Tender.mid"); 
+		String filePath = getPath("/mid/MaryHadALittleLamb.mid"); 
 		MidiFileToNotes midiNotes = new MidiFileToNotes(filePath);
 
 		int order = 3;
@@ -170,7 +170,7 @@ public class holaThis extends PApplet {
 	
 	public void unitTest4_Rhythms()
 	{
-		String filePath = getPath("/mid/Love_Me_Tender.mid"); 
+		String filePath = getPath("/mid/MaryHadALittleLamb.mid"); 
 		MidiFileToNotes midiNotes = new MidiFileToNotes(filePath);
 		int order = 3;
 		System.out.println("----------------------------Here is unit test 4 (Rhythms)---------------------------------------------------");
