@@ -126,7 +126,6 @@ public class PSTNode<E> {
 		
 		for(int i = 0; i < children.size(); i++)
 		{
-			//System.out.println(children.get(i).word);
 			if( children.get(i).probOfNode < pmin)
 			{
 				PSTNode<E> temp = children.get(i);
@@ -144,6 +143,7 @@ public class PSTNode<E> {
 		}
 	}
 	
+	//create the probability and eliminate elemenets that have p > pmin
 	void p_elemination(double pNum, PSTNode<E> motherNode)
 	{
 		countProb(motherNode, pNum);
@@ -152,6 +152,7 @@ public class PSTNode<E> {
 
 	void countProb(PSTNode<E> motherNode, double pNum)
 	{
+		//total count = total word in the data array - current word length
 		int sumOfCount = 0;
 		if(motherNode.word != null)
 		{
@@ -159,15 +160,15 @@ public class PSTNode<E> {
 		}
 		else
 		{
+			//for the root empty array
 			 sumOfCount = dataSize;
 		}
-		
+		//probability = counts/sumOfCount
 		for(int i = 0; i < motherNode.children.size(); i++)
 		{
 			//System.out.println("Sum of Count = "+sumOfCount + " node is " + motherNode.children.get(i).word );
 			double prob = ((double)motherNode.children.get(i).countOfNode / sumOfCount);
 			setProbNode(prob,i,motherNode);
-
 		}
 	}
 	
@@ -186,6 +187,7 @@ public class PSTNode<E> {
 		
 	}
 	
+	//set the probability for each node
 	void setProbNode(double val,int index, PSTNode<E> motherNode)
 	{
 		motherNode.children.get(index).probOfNode = val;

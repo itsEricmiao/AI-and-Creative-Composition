@@ -127,12 +127,9 @@ public class holaThis extends PApplet {
 		PSTNode<String> root = new PSTNode<String>(order);
 		String[] str1 = {"a","b","r","a","c","a","d","a","b","r","a"};
 		ArrayList<String> data = new ArrayList<String>(Arrays.asList(str1));
-		//PSTTree<String> test = new PSTTree<String>();
-		//root.setRoot(root);
 		root.setDataSize(data.size());
 		root.addToTree(data);
 		root.p_elemination(p_Num, root);
-		//test.printAll();
 		root.print(1,p_Num);
 		
 	}
