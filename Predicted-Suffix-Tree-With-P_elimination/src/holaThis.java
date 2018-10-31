@@ -39,23 +39,23 @@ public class holaThis extends PApplet {
 		fill(0); 
 		rect(x,y,w,h);
 		fill(255); 
-		text("UNIT TEST 1: Press key 'A' to see the Suffix tree output for:  abracadabra",x+30,y+50);
+		text("UNIT TEST 1: Press key 'A' to see the Suffix tree output for:  abracadabra ( L=3, Pmin=0.15, 0.2)",x+30,y+50);
 		
 		fill(0); 
 		rect(x,2*y,w,h);
 		fill(255);
-		text("UNIT TEST 2: Press key 'B' to see the Suffix tree output for:  acadaacbda",x+30,2*y+50);
+		text("UNIT TEST 2: Press key 'B' to see the Suffix tree output for:  acadaacbda ( L=3, Pmin=0.15, 0.2)",x+30,2*y+50);
 		
 		fill(0); 
 		rect(x,3*y,w,h);
 		fill(255);
-		text("UNIT TEST 3-A: Press key 'C' to see the Suffix tree output for:  abcccdaadcdaabcadad",x+30,3*y+50);
+		text("UNIT TEST 3-A: Press key 'C' to see the Suffix tree output for:  abcccdaadcdaabcadad ( L=3, Pmin=0.15, 0.2)",x+30,3*y+50);
 		fill(255);
 		
 		fill(0); 
 		rect(x,4*y,w,h);
 		fill(255);
-		text("UNIT TEST 3-B: Press key 'D' to see Suffix tree output for: Mary Had a Little Lamb",x+30,4*y+50);
+		text("UNIT TEST 3-B: Press key 'D' to see Suffix tree output for: Mary Had a Little Lamb ( L=3, Pmin=0.15, 0.2)",x+30,4*y+50);
 		fill(255);
 
 	}
@@ -103,11 +103,8 @@ public class holaThis extends PApplet {
 		String filePath = getPath("/mid/MaryHadALittleLamb.mid"); 
 		midiNotes = new MidiFileToNotes(filePath);
 
-		// which line
 		midiNotes.setWhichLine(0);
-		//midiNotes.processPitchesAsTokens();
 		player = new MelodyPlayer(this, 100.0f);
-
 		player.setup();
 		player.setMelody(midiNotes.getPitchArray());
 		player.setRhythm(midiNotes.getRhythmArray());
@@ -124,8 +121,7 @@ public class holaThis extends PApplet {
 		PSTNode<String> root = new PSTNode<String>(order);
 		String[] str1 = {"a","b","r","a","c","a","d","a","b","r","a"};
 		ArrayList<String> data = new ArrayList<String>(Arrays.asList(str1));
-		
-		PSTTree<String> test = new PSTTree<String>();
+		//PSTTree<String> test = new PSTTree<String>();
 		//root.setRoot(root);
 		root.addToTree(data);
 		root.p_elemination(p_Num, root);
@@ -138,12 +134,14 @@ public class holaThis extends PApplet {
 	public void unitTest1()
 	{
 		int order = 3;
+		double p_Num = 0.15;
 		System.out.println("----------------------------Here is unit test 1---------------------------------------------------");
 		System.out.println("String: abracadabra");
 		PSTNode<String> root = new PSTNode<String>(order);
 		String[] str1 = {"a","b","r","a","c","a","d","a","b","r","a"};
 		ArrayList<String> data = new ArrayList(Arrays.asList(str1));
 		root.addToTree(data);
+		root.p_elemination(p_Num, root);
 		root.print(1);
 		System.out.println();
 
@@ -153,12 +151,14 @@ public class holaThis extends PApplet {
 	public void unitTest2()
 	{
 		int order = 3;
+		double p_Num = 0.15;
 		System.out.println("----------------------------Here is unit test 2------------------------------------------");
 		System.out.println("String: acadaacbda");
 		PSTNode<String> root = new PSTNode<String>(order);
 		String[] str1 = {"a","c","a","d","a","a","b","d","a"};
 		ArrayList<String> data = new ArrayList(Arrays.asList(str1));
 		root.addToTree(data);
+		root.p_elemination(p_Num, root);
 		root.print(1);
 		System.out.println();
 
@@ -168,12 +168,14 @@ public class holaThis extends PApplet {
 	public void unitTest3()
 	{
 		int order = 3;
+		double p_Num = 0.15;
 		System.out.println("----------------------------Here is unit test 3---------------------------------------------------");
 		System.out.println("String: abcccdaadcdaabcadad");
 		PSTNode<String> root = new PSTNode<String>(order);
 		String[] str1 = {"a","b","c","c","c","d","a","a","d","c","d","a","a","b","c","a","d","a","d"};
 		ArrayList<String> data = new ArrayList(Arrays.asList(str1));
 		root.addToTree(data);
+		root.p_elemination(p_Num, root);
 		root.print(1);
 		System.out.println();
 
@@ -185,10 +187,12 @@ public class holaThis extends PApplet {
 		MidiFileToNotes midiNotes = new MidiFileToNotes(filePath);
 
 		int order = 3;
+		double p_Num = 0.15;
 		System.out.println("----------------------------Here is unit test 4 (Pitches)---------------------------------------------------");
 		System.out.println("String: Mary Had a Little Lamb");
 		PSTNode<Integer> root = new PSTNode<Integer>(order);
 		root.addToTree(midiNotes.pitches);
+		root.p_elemination(p_Num, root);
 		root.print(1);
 		System.out.println();
 
@@ -196,6 +200,7 @@ public class holaThis extends PApplet {
 	
 	public void unitTest4_Rhythms()
 	{
+		double p_Num = 0.15;
 		String filePath = getPath("/mid/MaryHadALittleLamb.mid"); 
 		MidiFileToNotes midiNotes = new MidiFileToNotes(filePath);
 		int order = 3;
@@ -203,6 +208,7 @@ public class holaThis extends PApplet {
 		System.out.println("String: Mary Had a Little Lamb");
 		PSTNode<Double> root = new PSTNode<Double>(order);
 		root.addToTree(midiNotes.rhythms);
+		root.p_elemination(p_Num, root);
 		root.print(1);
 		System.out.println();
 

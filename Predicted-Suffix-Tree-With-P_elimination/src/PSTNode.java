@@ -120,10 +120,15 @@ public class PSTNode<E> {
 		for(int i = 0; i < children.size(); i++)
 		{
 			//System.out.println(children.get(i).word);
-			printSpace(children.get(i).word.size());
-			System.out.println("-->"+children.get(i).word + " the count is: "+children.get(i).countOfNode + " the prob is: " + children.get(i).probOfNode);
+			
+			if( children.get(i).probOfNode>0.15)
+			{
+				printSpace(children.get(i).word.size());
+				System.out.println("-->"+children.get(i).word + " the count is: "+children.get(i).countOfNode + "           the prob is: " + children.get(i).probOfNode);
+				time ++;
+				
+			}
 			PSTNode<E> temp = children.get(i);
-			time ++;
 			temp.print(time);
 		}
 	}
@@ -133,6 +138,24 @@ public class PSTNode<E> {
 		countProb(motherNode, pNum);
 		createProb(motherNode, pNum);
 		
+		//removeNode(pNum,motherNode);
+	}
+	
+	void removeNode(double pNum, PSTNode<E> motherNode)
+	{
+		if(motherNode.children.size() != 0)
+		{
+			for(int x = 0; x < motherNode.children.size(); x++)
+			{
+				PSTNode<E> tempMotherNode = motherNode.getNode(x);
+				temp(pNum, tempMotherNode);
+			}
+			
+		}
+	}
+	
+	void temp(double pNum, PSTNode<E> motherNode)
+	{
 		ArrayList<PSTNode<E>> willRemove = new ArrayList<PSTNode<E>>();
 		for(int i = 0; i < motherNode.children.size(); i++)
 		{
@@ -144,13 +167,13 @@ public class PSTNode<E> {
 		
 		for(int i = 0; i < willRemove.size(); i++)
 		{
-			PSTNode<E> tempNode = new PSTNode<E> ();
+			PSTNode<E> tempNode = new PSTNode<E>();
 			tempNode = willRemove.get(i);
+			System.out.println("Remove: " + tempNode.word);
 			motherNode.children.remove(tempNode);
 		}
 		
 	}
-	
 	
 	void countProb(PSTNode<E> motherNode, double pNum)
 	{
@@ -168,6 +191,7 @@ public class PSTNode<E> {
 		}
 	}
 	
+	//recursive function to find the probability of each note of a branch
 	void createProb(PSTNode<E> motherNode, double pNum)
 	{
 		if(motherNode.children.size() != 0)
@@ -207,7 +231,7 @@ public class PSTNode<E> {
 		{
 			temp.add(input.get(i));
 		}
-//		System.out.println("Temp = "+temp+" Input = "+input);
+
 		//Recursive from size of 1 to size of m-1 (from root to desired brunch)
 		while(loop < input.size()-1)
 		{
