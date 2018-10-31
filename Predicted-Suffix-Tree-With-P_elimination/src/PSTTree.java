@@ -17,7 +17,7 @@ public class PSTTree<E> {
 	
 	void printAll()
 	{
-		root.print(1);
+		//root.print(1);
 	}
 	
 	void addToTree(ArrayList<E> input)

@@ -7,6 +7,7 @@ public class PSTNode<E> {
 	private int index = 0;	//This is the index of next node for isSuffix() and isFound() ----> it is useless at this point but i will combine it into my functions next week
 	private int countOfNode = 0;
 	private double probOfNode = 1;
+	private int dataSize = 0;
 	
 	//Constructors
 	PSTNode() {}
@@ -20,7 +21,13 @@ public class PSTNode<E> {
 	{
 		word = input;
 	}
+	
+	void setDataSize(int size)
+	{
+		dataSize = size;
+	}
 
+	
 	//Getter for getting the value of the node
 	ArrayList<E> getWord(int index)
 	{
@@ -114,22 +121,26 @@ public class PSTNode<E> {
 	}
 	
 	//Print function for testing
-	void print(int time)	
+	void print(int time, double pmin)	
 	{
 		
 		for(int i = 0; i < children.size(); i++)
 		{
 			//System.out.println(children.get(i).word);
-			
-			if( children.get(i).probOfNode>0.15)
+			if( children.get(i).probOfNode < pmin)
+			{
+				PSTNode<E> temp = children.get(i);
+				children.remove(temp);
+			}
+			else if( children.get(i).probOfNode >= pmin)
 			{
 				printSpace(children.get(i).word.size());
-				System.out.println("-->"+children.get(i).word + " the count is: "+children.get(i).countOfNode + "           the prob is: " + children.get(i).probOfNode);
-				time ++;
-				
+				System.out.println("-->"+children.get(i).word);
+				time ++;	
+				PSTNode<E> temp = children.get(i);
+				temp.print(time, pmin);
 			}
-			PSTNode<E> temp = children.get(i);
-			temp.print(time);
+			
 		}
 	}
 	
@@ -137,55 +148,24 @@ public class PSTNode<E> {
 	{
 		countProb(motherNode, pNum);
 		createProb(motherNode, pNum);
-		
-		//removeNode(pNum,motherNode);
 	}
-	
-	void removeNode(double pNum, PSTNode<E> motherNode)
-	{
-		if(motherNode.children.size() != 0)
-		{
-			for(int x = 0; x < motherNode.children.size(); x++)
-			{
-				PSTNode<E> tempMotherNode = motherNode.getNode(x);
-				temp(pNum, tempMotherNode);
-			}
-			
-		}
-	}
-	
-	void temp(double pNum, PSTNode<E> motherNode)
-	{
-		ArrayList<PSTNode<E>> willRemove = new ArrayList<PSTNode<E>>();
-		for(int i = 0; i < motherNode.children.size(); i++)
-		{
-			if(motherNode.children.get(i).probOfNode < pNum)
-			{
-				willRemove.add(children.get(i));
-			}
-		}
-		
-		for(int i = 0; i < willRemove.size(); i++)
-		{
-			PSTNode<E> tempNode = new PSTNode<E>();
-			tempNode = willRemove.get(i);
-			System.out.println("Remove: " + tempNode.word);
-			motherNode.children.remove(tempNode);
-		}
-		
-	}
-	
+
 	void countProb(PSTNode<E> motherNode, double pNum)
 	{
 		int sumOfCount = 0;
-		for(int i = 0; i < motherNode.children.size(); i++)
+		if(motherNode.word != null)
 		{
-			sumOfCount = sumOfCount + motherNode.children.get(i).countOfNode;
+			 sumOfCount =  dataSize - motherNode.word.size();
+		}
+		else
+		{
+			 sumOfCount = dataSize;
 		}
 		
 		for(int i = 0; i < motherNode.children.size(); i++)
 		{
-			double prob = ((double)motherNode.children.get(i).countOfNode / sumOfCount)*motherNode.probOfNode;
+			//System.out.println("Sum of Count = "+sumOfCount + " node is " + motherNode.children.get(i).word );
+			double prob = ((double)motherNode.children.get(i).countOfNode / sumOfCount);
 			setProbNode(prob,i,motherNode);
 
 		}
