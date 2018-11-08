@@ -227,9 +227,9 @@ public class holaThis extends PApplet {
 	public void unitTest1_B()
 	{
 		int order = 3;
-		double p_Num = 0.2;
+		double p_Num = 0.1;
 		System.out.println("----------------------------Here is unit test 1---------------------------------------------------");
-		System.out.println("String: abracadabra with Pmin = 0.2");
+		System.out.println("String: abracadabra with Pmin = 0.1");
 		PSTNode<String> root = new PSTNode<String>(order);
 		String[] str1 = {"a","b","r","a","c","a","d","a","b","r","a"};
 		ArrayList<String> data = new ArrayList(Arrays.asList(str1));

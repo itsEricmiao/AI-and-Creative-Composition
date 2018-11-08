@@ -9,6 +9,7 @@ public class PSTNode<E> {
 	private double probOfNode = 1;
 	private int dataSize = 0;
 	
+	
 	//Constructors
 	PSTNode() {}
 	
@@ -172,6 +173,9 @@ public class PSTNode<E> {
 		}
 	}
 	
+	
+	
+	
 	//recursive function to find the probability of each note of a branch
 	void createProb(PSTNode<E> motherNode, double pNum)
 	{
@@ -243,6 +247,16 @@ public class PSTNode<E> {
 			}
 		}
 		return false;
+	}
+	
+	int findX()
+	{
+		int target = 0;
+		
+		//     (counts of x appear after children / counts of children appear)
+		//r = ------------------------------------------------------------------
+		//     (counts of x appear after parents/ counts of parents)
+		return target;
 	}
 	
 	

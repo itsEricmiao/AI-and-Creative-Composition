@@ -30,6 +30,7 @@ public class PSTTree<E> {
 		root.p_elemination(p_Num, root);
 	}
 	
+	
 
 	
 }
