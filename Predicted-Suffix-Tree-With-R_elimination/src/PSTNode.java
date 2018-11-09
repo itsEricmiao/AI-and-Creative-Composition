@@ -131,21 +131,44 @@ public class PSTNode<E> {
 
 
 	//Print function for testing
+//	void print(int time, double pmin, double rmin)	
+//	{
+//
+//		for(int i = 0; i < children.size(); i++)
+//		{
+//			if( children.get(i).probOfNode < pmin || children.get(i).rValOfNode < rmin)
+//			{
+//				PSTNode<E> temp = children.get(i);
+//				children.remove(temp);
+//			}
+//			else if( children.get(i).probOfNode >= pmin && children.get(i).rValOfNode > rmin)
+//				//				
+//			{
+//				printSpace(children.get(i).word.size());
+//				System.out.println("-->"+children.get(i).word + "   The R is ["+rValOfNode+"]");
+//				time ++;	
+//				PSTNode<E> temp = children.get(i);
+//				temp.print(time, pmin, rmin);
+//			}
+//
+//		}
+//	}
+
 	void print(int time, double pmin, double rmin)	
 	{
 
 		for(int i = 0; i < children.size(); i++)
 		{
-			if( children.get(i).probOfNode < pmin || children.get(i).rValOfNode < rmin)
+			if( children.get(i).probOfNode < pmin)
 			{
 				PSTNode<E> temp = children.get(i);
 				children.remove(temp);
 			}
-			else if( children.get(i).probOfNode >= pmin && children.get(i).rValOfNode > rmin)
+			else if( children.get(i).probOfNode >= pmin)
 				//				
 			{
 				printSpace(children.get(i).word.size());
-				System.out.println("-->"+children.get(i).word);
+				System.out.println("-->"+children.get(i).word + "   The R is ["+rValOfNode+"]");
 				time ++;	
 				PSTNode<E> temp = children.get(i);
 				temp.print(time, pmin, rmin);
@@ -153,7 +176,6 @@ public class PSTNode<E> {
 
 		}
 	}
-
 
 	//create the probability and eliminate elemenets that have p > pmin
 	void p_elimination(double pNum, PSTNode<E> motherNode)
@@ -185,9 +207,9 @@ public class PSTNode<E> {
 
 				double ratio;
 				double ratio1 = (double)xCountAfterChild/childCount;
-				System.out.println("Ratio 1 = "+ratio1);
+				//System.out.println("Ratio 1 = "+ratio1);
 				double ratio2 = (double)xCountAfterParent/parentCount;
-				System.out.println("Ratio 2 = "+ratio2);
+				//System.out.println("Ratio 2 = "+ratio2);
 				ratio = (double)(ratio1/ratio2);		 
 				//     (counts of x appear after children / counts of children appear)
 				//r = ------------------------------------------------------------------
@@ -274,7 +296,7 @@ public class PSTNode<E> {
 	{
 		ArrayList<Pair<E>> allXs = new ArrayList<Pair<E>>();
 		ArrayList<E> childWord = node.word;
-		for(int i = 0; i < data.size()-childWord.size()-1; i++)
+		for(int i = 0; i < data.size()-childWord.size(); i++)
 		{
 			ArrayList<E> temp = new ArrayList<E>(data.subList(i, i+childWord.size()));
 			if(temp.equals(childWord))
@@ -292,7 +314,6 @@ public class PSTNode<E> {
 						check = 1;
 					}
 				}
-
 				//we add Pair to arrayList if it is not found
 				if(check == 0)
 				{
@@ -301,25 +322,27 @@ public class PSTNode<E> {
 				}
 			}
 		}
-
-
+		
+		if(allXs.size() == 0)
+		{
+			//meaning that there is no element after 
+			return null;
+			
+		}
+		
+		//System.out.println("Input node is " + childWord+ "    AllXS size = " + allXs.size());
 		Pair<E> tempx = allXs.get(0);
 		int max = allXs.get(0).getSecond();
-
 		for(int count = 0; count < allXs.size(); count++)
 		{
-
-
 			if(allXs.get(count).getSecond() > max)
 			{
 				max = allXs.get(count).getSecond();
 				tempx = allXs.get(count);
 			}
 		}
-
 		E x = tempx.getFirst();
 		return x;
-
 	}
 
 

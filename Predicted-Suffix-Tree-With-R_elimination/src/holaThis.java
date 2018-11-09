@@ -171,6 +171,7 @@ public class holaThis extends PApplet {
 		root.addToTree(data);
 		root.setDataSize(data.size());
 		root.p_elimination(p_Num, root);
+		root.r_elimination(r_Num, root, data);
 		root.print(1,p_Num,r_Num);
 		System.out.println();
 
@@ -190,6 +191,7 @@ public class holaThis extends PApplet {
 		root.addToTree(data);
 		root.setDataSize(data.size());
 		root.p_elimination(p_Num, root);
+		root.r_elimination(r_Num, root, data);
 		root.print(1,p_Num,r_Num);
 		System.out.println();
 
@@ -202,13 +204,14 @@ public class holaThis extends PApplet {
 
 		int order = 3;
 		double p_Num = 0.15;
-		double r_Num = 2.0;
+		double r_Num = 2;
 		System.out.println("----------------------------Here is unit test 4 (Pitches)---------------------------------------------------");
 		System.out.println("String: Mary Had a Little Lamb with Pmin = 0.15 and R = 2.0");
 		PSTNode<Integer> root = new PSTNode<Integer>(order);
 		root.addToTree(midiNotes.pitches);
 		root.setDataSize(midiNotes.pitches.size());
 		root.p_elimination(p_Num, root);
+		root.r_elimination(r_Num, root, midiNotes.pitches);
 		root.print(1,p_Num,r_Num);
 		System.out.println();
 
@@ -217,7 +220,7 @@ public class holaThis extends PApplet {
 	public void unitTest4_Rhythms()
 	{
 		double p_Num = 0.15;
-		double r_Num = 2.0;
+		double r_Num = 2;
 		String filePath = getPath("/mid/MaryHadALittleLamb.mid"); 
 		MidiFileToNotes midiNotes = new MidiFileToNotes(filePath);
 		int order = 3;
@@ -227,6 +230,7 @@ public class holaThis extends PApplet {
 		root.addToTree(midiNotes.rhythms);
 		root.setDataSize(midiNotes.rhythms.size());
 		root.p_elimination(p_Num, root);
+		root.r_elimination(r_Num, root, midiNotes.rhythms);
 		root.print(1,p_Num,r_Num);
 		System.out.println();
 
@@ -266,6 +270,7 @@ public class holaThis extends PApplet {
 		root.addToTree(data);
 		root.setDataSize(data.size());
 		root.p_elimination(p_Num, root);
+		root.r_elimination(r_Num, root, data);
 		root.print(1,p_Num,r_Num);
 		System.out.println();
 
@@ -285,6 +290,7 @@ public class holaThis extends PApplet {
 		root.addToTree(data);
 		root.setDataSize(data.size());
 		root.p_elimination(p_Num, root);
+		root.r_elimination(r_Num, root, data);
 		root.print(1,p_Num,r_Num);
 		System.out.println();
 
@@ -304,6 +310,7 @@ public class holaThis extends PApplet {
 		root.addToTree(midiNotes.pitches);
 		root.setDataSize(midiNotes.pitches.size());
 		root.p_elimination(p_Num, root);
+		root.r_elimination(r_Num, root, midiNotes.pitches);
 		root.print(1,p_Num,r_Num);
 		System.out.println();
 
@@ -322,6 +329,7 @@ public class holaThis extends PApplet {
 		root.addToTree(midiNotes.rhythms);
 		root.setDataSize(midiNotes.rhythms.size());
 		root.p_elimination(p_Num, root);
+		root.r_elimination(r_Num, root, midiNotes.rhythms);
 		root.print(1,p_Num, r_Num);
 		System.out.println();
 
