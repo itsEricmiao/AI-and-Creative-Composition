@@ -174,14 +174,25 @@ public class PSTNode<E> {
 			for(int i = 0; i < motherNode.children.size(); i++)
 			{				
 				PSTNode<E> childrenNode = motherNode.getNode(i);
-				System.out.println("input node = " + childrenNode.word + "|  X = " + getXval(childrenNode, data));
-				System.out.println();
+				ArrayList<E> childWord = childrenNode.word;
+				ArrayList<E> parentWord = getParentWord(childWord);
+				E x = getXval(childrenNode, data);
+				System.out.println("Children word is: "+childWord+" Parent word is: "+parentWord + " X = "+ x);
+				
 				createRprob(rNum,childrenNode,data);
 			}
 		}
 	}
 	
-	
+	ArrayList<E> getParentWord(ArrayList<E> childWord)
+	{
+		ArrayList<E> parentWord = new ArrayList<E>();
+		for(int i = 1; i < childWord.size(); i++)
+		{
+			parentWord.add(childWord.get(i));
+		}
+		return parentWord;
+	}
 	
 	//recursive function to find the probability of each note of a branch
 	void createProb(PSTNode<E> motherNode, double pNum)
@@ -195,8 +206,9 @@ public class PSTNode<E> {
 				createProb(tempMotherNode, pNum);
 			}
 		}
-		
 	}
+	
+	
 	
 	
 	E getXval(PSTNode<E> node, ArrayList<E> data)
@@ -251,15 +263,7 @@ public class PSTNode<E> {
 		
 	}
 	
-	ArrayList<E> getParentWord(ArrayList<E> childWord)
-	{
-		ArrayList<E> parentWord = new ArrayList<E>();
-		for(int i = 1; i < childWord.size(); i++)
-		{
-			parentWord.add(childWord.get(i));
-		}
-		return parentWord;
-	}
+	
 	
 	void countProb(PSTNode<E> motherNode, double pNum)
 	{

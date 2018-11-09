@@ -131,7 +131,7 @@ public class holaThis extends PApplet {
 		ArrayList<String> data = new ArrayList<String>(Arrays.asList(str1));
 		root.setDataSize(data.size());
 		root.addToTree(data);
-		root.p_elimination(p_Num, root);
+		//root.p_elimination(p_Num, root);
 		root.r_elimination(r_Num, root, data);
 		//root.print(1,p_Num, r_Num);
 		
