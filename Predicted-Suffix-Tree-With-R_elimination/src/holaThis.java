@@ -64,29 +64,29 @@ public class holaThis extends PApplet {
 
 //		player.reset();
 //		println("Melody started!");
-	if (key == 'a') {
-		unitTest1();
-		unitTest1_B();
-	}
-	
-	if (key == 'b') {
-		unitTest2();
-		unitTest2_B();
-	}
-
-	if (key == 'c') {
-		unitTest3();
-		unitTest3_B();
-	}
-	
-	//Test Function
-	if (key == 'd') {
-		unitTest4_Pitches();
-		unitTest4_Rhythms();
-		
-		unitTest4_Pitches_B();
-		unitTest4_Rhythms_B();
-	}
+//	if (key == 'a') {
+//		unitTest1();
+//		unitTest1_B();
+//	}
+//	
+//	if (key == 'b') {
+//		unitTest2();
+//		unitTest2_B();
+//	}
+//
+//	if (key == 'c') {
+//		unitTest3();
+//		unitTest3_B();
+//	}
+//	
+//	//Test Function
+//	if (key == 'd') {
+//		unitTest4_Pitches();
+//		unitTest4_Rhythms();
+//		
+//		unitTest4_Pitches_B();
+//		unitTest4_Rhythms_B();
+//	}
 	
 	//For testing purpose
 	if (key == 't') {
@@ -116,202 +116,205 @@ public class holaThis extends PApplet {
 		player.setRhythm(midiNotes.getRhythmArray());
 
 	}
+	
 
 	public void unitTest()
 	{
 		int order = 3;
-		double p_Num = 0.2;
+		double p_Num = 0.1;
+		double r_Num = 2.0;
 		
 		System.out.println("----------------------------Here is unit test 1---------------------------------------------------");
-		System.out.println("String: abracadabra with Pmin = 0.2");
+		System.out.println("String: abracadabra with Pmin = 0.1");
 		PSTNode<String> root = new PSTNode<String>(order);
 		String[] str1 = {"a","b","r","a","c","a","d","a","b","r","a"};
 		ArrayList<String> data = new ArrayList<String>(Arrays.asList(str1));
 		root.setDataSize(data.size());
 		root.addToTree(data);
-		root.p_elemination(p_Num, root);
-		root.print(1,p_Num);
+		root.p_elimination(p_Num, root);
+		root.r_elimination(r_Num, root, data);
+		//root.print(1,p_Num, r_Num);
 		
 	}
 	
-	
-	public void unitTest1()
-	{
-		int order = 3;
-		double p_Num = 0.15;
-		System.out.println("----------------------------Here is unit test 1---------------------------------------------------");
-		System.out.println("String: abracadabra with Pmin = 0.15");
-		PSTNode<String> root = new PSTNode<String>(order);
-		String[] str1 = {"a","b","r","a","c","a","d","a","b","r","a"};
-		ArrayList<String> data = new ArrayList(Arrays.asList(str1));
-		root.setDataSize(data.size());
-		root.addToTree(data);
-		root.p_elemination(p_Num, root);
-		root.print(1,p_Num);
-		System.out.println();
-
-	}
-
-	
-	public void unitTest2()
-	{
-		int order = 3;
-		double p_Num = 0.15;
-		System.out.println("----------------------------Here is unit test 2------------------------------------------");
-		System.out.println("String: acadaacbda with Pmin = 0.15");
-		PSTNode<String> root = new PSTNode<String>(order);
-		String[] str1 = {"a","c","a","d","a","a","b","d","a"};
-		ArrayList<String> data = new ArrayList(Arrays.asList(str1));
-		root.addToTree(data);
-		root.setDataSize(data.size());
-		root.p_elemination(p_Num, root);
-		root.print(1,p_Num);
-		System.out.println();
-
-	}
-	
-	
-	public void unitTest3()
-	{
-		int order = 3;
-		double p_Num = 0.15;
-		System.out.println("----------------------------Here is unit test 3---------------------------------------------------");
-		System.out.println("String: abcccdaadcdaabcadad with Pmin = 0.15");
-		PSTNode<String> root = new PSTNode<String>(order);
-		String[] str1 = {"a","b","c","c","c","d","a","a","d","c","d","a","a","b","c","a","d","a","d"};
-		ArrayList<String> data = new ArrayList(Arrays.asList(str1));
-		root.addToTree(data);
-		root.setDataSize(data.size());
-		root.p_elemination(p_Num, root);
-		root.print(1,p_Num);
-		System.out.println();
-
-	}
-
-	public void unitTest4_Pitches()
-	{
-		String filePath = getPath("/mid/MaryHadALittleLamb.mid"); 
-		MidiFileToNotes midiNotes = new MidiFileToNotes(filePath);
-
-		int order = 3;
-		double p_Num = 0.15;
-		System.out.println("----------------------------Here is unit test 4 (Pitches)---------------------------------------------------");
-		System.out.println("String: Mary Had a Little Lamb with Pmin = 0.15");
-		PSTNode<Integer> root = new PSTNode<Integer>(order);
-		root.addToTree(midiNotes.pitches);
-		root.setDataSize(midiNotes.pitches.size());
-		root.p_elemination(p_Num, root);
-		root.print(1,p_Num);
-		System.out.println();
-
-	}
-	
-	public void unitTest4_Rhythms()
-	{
-		double p_Num = 0.15;
-		String filePath = getPath("/mid/MaryHadALittleLamb.mid"); 
-		MidiFileToNotes midiNotes = new MidiFileToNotes(filePath);
-		int order = 3;
-		System.out.println("----------------------------Here is unit test 4 (Rhythms)---------------------------------------------------");
-		System.out.println("String: Mary Had a Little Lamb with Pmin = 0.15");
-		PSTNode<Double> root = new PSTNode<Double>(order);
-		root.addToTree(midiNotes.rhythms);
-		root.setDataSize(midiNotes.rhythms.size());
-		root.p_elemination(p_Num, root);
-		root.print(1,p_Num);
-		System.out.println();
-
-	}
-	
-	
-	public void unitTest1_B()
-	{
-		int order = 3;
-		double p_Num = 0.1;
-		System.out.println("----------------------------Here is unit test 1---------------------------------------------------");
-		System.out.println("String: abracadabra with Pmin = 0.1");
-		PSTNode<String> root = new PSTNode<String>(order);
-		String[] str1 = {"a","b","r","a","c","a","d","a","b","r","a"};
-		ArrayList<String> data = new ArrayList(Arrays.asList(str1));
-		root.addToTree(data);
-		root.setDataSize(data.size());
-		root.p_elemination(p_Num, root);
-		root.print(1,p_Num);
-		System.out.println();
-
-	}
-
-	
-	public void unitTest2_B()
-	{
-		int order = 3;
-		double p_Num = 0.2;
-		System.out.println("----------------------------Here is unit test 2------------------------------------------");
-		System.out.println("String: acadaacbda with Pmin = 0.2");
-		PSTNode<String> root = new PSTNode<String>(order);
-		String[] str1 = {"a","c","a","d","a","a","b","d","a"};
-		ArrayList<String> data = new ArrayList(Arrays.asList(str1));
-		root.addToTree(data);
-		root.setDataSize(data.size());
-		root.p_elemination(p_Num, root);
-		root.print(1,p_Num);
-		System.out.println();
-
-	}
-	
-	
-	public void unitTest3_B()
-	{
-		int order = 3;
-		double p_Num = 0.2;
-		System.out.println("----------------------------Here is unit test 3---------------------------------------------------");
-		System.out.println("String: abcccdaadcdaabcadad with Pmin = 0.2");
-		PSTNode<String> root = new PSTNode<String>(order);
-		String[] str1 = {"a","b","c","c","c","d","a","a","d","c","d","a","a","b","c","a","d","a","d"};
-		ArrayList<String> data = new ArrayList(Arrays.asList(str1));
-		root.addToTree(data);
-		root.setDataSize(data.size());
-		root.p_elemination(p_Num, root);
-		root.print(1,p_Num);
-		System.out.println();
-
-	}
-
-	public void unitTest4_Pitches_B()
-	{
-		String filePath = getPath("/mid/MaryHadALittleLamb.mid"); 
-		MidiFileToNotes midiNotes = new MidiFileToNotes(filePath);
-
-		int order = 3;
-		double p_Num = 0.2;
-		System.out.println("----------------------------Here is unit test 4 (Pitches)---------------------------------------------------");
-		System.out.println("String: Mary Had a Little Lamb with Pmin = 0.2");
-		PSTNode<Integer> root = new PSTNode<Integer>(order);
-		root.addToTree(midiNotes.pitches);
-		root.setDataSize(midiNotes.pitches.size());
-		root.p_elemination(p_Num, root);
-		root.print(1,p_Num);
-		System.out.println();
-
-	}
-	
-	public void unitTest4_Rhythms_B()
-	{
-		double p_Num = 0.2;
-		String filePath = getPath("/mid/MaryHadALittleLamb.mid"); 
-		MidiFileToNotes midiNotes = new MidiFileToNotes(filePath);
-		int order = 3;
-		System.out.println("----------------------------Here is unit test 4 (Rhythms)---------------------------------------------------");
-		System.out.println("String: Mary Had a Little Lamb with Pmin = 0.2");
-		PSTNode<Double> root = new PSTNode<Double>(order);
-		root.addToTree(midiNotes.rhythms);
-		root.setDataSize(midiNotes.rhythms.size());
-		root.p_elemination(p_Num, root);
-		root.print(1,p_Num);
-		System.out.println();
-
-	}
-	
+//	
+//	public void unitTest1()
+//	{
+//		int order = 3;
+//		double p_Num = 0.15;
+//		System.out.println("----------------------------Here is unit test 1---------------------------------------------------");
+//		System.out.println("String: abracadabra with Pmin = 0.15");
+//		PSTNode<String> root = new PSTNode<String>(order);
+//		String[] str1 = {"a","b","r","a","c","a","d","a","b","r","a"};
+//		ArrayList<String> data = new ArrayList(Arrays.asList(str1));
+//		root.setDataSize(data.size());
+//		root.addToTree(data);
+//		root.p_elimination(p_Num, root);
+//		root.print(1,p_Num);
+//		System.out.println();
+//
+//	}
+//
+//	
+//	public void unitTest2()
+//	{
+//		int order = 3;
+//		double p_Num = 0.15;
+//		System.out.println("----------------------------Here is unit test 2------------------------------------------");
+//		System.out.println("String: acadaacbda with Pmin = 0.15");
+//		PSTNode<String> root = new PSTNode<String>(order);
+//		String[] str1 = {"a","c","a","d","a","a","b","d","a"};
+//		ArrayList<String> data = new ArrayList(Arrays.asList(str1));
+//		root.addToTree(data);
+//		root.setDataSize(data.size());
+//		root.p_elimination(p_Num, root);
+//		root.print(1,p_Num);
+//		System.out.println();
+//
+//	}
+//	
+//	
+//	public void unitTest3()
+//	{
+//		int order = 3;
+//		double p_Num = 0.15;
+//		System.out.println("----------------------------Here is unit test 3---------------------------------------------------");
+//		System.out.println("String: abcccdaadcdaabcadad with Pmin = 0.15");
+//		PSTNode<String> root = new PSTNode<String>(order);
+//		String[] str1 = {"a","b","c","c","c","d","a","a","d","c","d","a","a","b","c","a","d","a","d"};
+//		ArrayList<String> data = new ArrayList(Arrays.asList(str1));
+//		root.addToTree(data);
+//		root.setDataSize(data.size());
+//		root.p_elimination(p_Num, root);
+//		root.print(1,p_Num);
+//		System.out.println();
+//
+//	}
+//
+//	public void unitTest4_Pitches()
+//	{
+//		String filePath = getPath("/mid/MaryHadALittleLamb.mid"); 
+//		MidiFileToNotes midiNotes = new MidiFileToNotes(filePath);
+//
+//		int order = 3;
+//		double p_Num = 0.15;
+//		System.out.println("----------------------------Here is unit test 4 (Pitches)---------------------------------------------------");
+//		System.out.println("String: Mary Had a Little Lamb with Pmin = 0.15");
+//		PSTNode<Integer> root = new PSTNode<Integer>(order);
+//		root.addToTree(midiNotes.pitches);
+//		root.setDataSize(midiNotes.pitches.size());
+//		root.p_elimination(p_Num, root);
+//		root.print(1,p_Num);
+//		System.out.println();
+//
+//	}
+//	
+//	public void unitTest4_Rhythms()
+//	{
+//		double p_Num = 0.15;
+//		String filePath = getPath("/mid/MaryHadALittleLamb.mid"); 
+//		MidiFileToNotes midiNotes = new MidiFileToNotes(filePath);
+//		int order = 3;
+//		System.out.println("----------------------------Here is unit test 4 (Rhythms)---------------------------------------------------");
+//		System.out.println("String: Mary Had a Little Lamb with Pmin = 0.15");
+//		PSTNode<Double> root = new PSTNode<Double>(order);
+//		root.addToTree(midiNotes.rhythms);
+//		root.setDataSize(midiNotes.rhythms.size());
+//		root.p_elimination(p_Num, root);
+//		root.print(1,p_Num);
+//		System.out.println();
+//
+//	}
+//	
+//	
+//	public void unitTest1_B()
+//	{
+//		int order = 3;
+//		double p_Num = 0.1;
+//		System.out.println("----------------------------Here is unit test 1---------------------------------------------------");
+//		System.out.println("String: abracadabra with Pmin = 0.1");
+//		PSTNode<String> root = new PSTNode<String>(order);
+//		String[] str1 = {"a","b","r","a","c","a","d","a","b","r","a"};
+//		ArrayList<String> data = new ArrayList(Arrays.asList(str1));
+//		root.addToTree(data);
+//		root.setDataSize(data.size());
+//		root.p_elimination(p_Num, root);
+//		root.print(1,p_Num);
+//		System.out.println();
+//
+//	}
+//
+//	
+//	public void unitTest2_B()
+//	{
+//		int order = 3;
+//		double p_Num = 0.2;
+//		System.out.println("----------------------------Here is unit test 2------------------------------------------");
+//		System.out.println("String: acadaacbda with Pmin = 0.2");
+//		PSTNode<String> root = new PSTNode<String>(order);
+//		String[] str1 = {"a","c","a","d","a","a","b","d","a"};
+//		ArrayList<String> data = new ArrayList(Arrays.asList(str1));
+//		root.addToTree(data);
+//		root.setDataSize(data.size());
+//		root.p_elimination(p_Num, root);
+//		root.print(1,p_Num);
+//		System.out.println();
+//
+//	}
+//	
+//	
+//	public void unitTest3_B()
+//	{
+//		int order = 3;
+//		double p_Num = 0.2;
+//		System.out.println("----------------------------Here is unit test 3---------------------------------------------------");
+//		System.out.println("String: abcccdaadcdaabcadad with Pmin = 0.2");
+//		PSTNode<String> root = new PSTNode<String>(order);
+//		String[] str1 = {"a","b","c","c","c","d","a","a","d","c","d","a","a","b","c","a","d","a","d"};
+//		ArrayList<String> data = new ArrayList(Arrays.asList(str1));
+//		root.addToTree(data);
+//		root.setDataSize(data.size());
+//		root.p_elimination(p_Num, root);
+//		root.print(1,p_Num);
+//		System.out.println();
+//
+//	}
+//
+//	public void unitTest4_Pitches_B()
+//	{
+//		String filePath = getPath("/mid/MaryHadALittleLamb.mid"); 
+//		MidiFileToNotes midiNotes = new MidiFileToNotes(filePath);
+//
+//		int order = 3;
+//		double p_Num = 0.2;
+//		System.out.println("----------------------------Here is unit test 4 (Pitches)---------------------------------------------------");
+//		System.out.println("String: Mary Had a Little Lamb with Pmin = 0.2");
+//		PSTNode<Integer> root = new PSTNode<Integer>(order);
+//		root.addToTree(midiNotes.pitches);
+//		root.setDataSize(midiNotes.pitches.size());
+//		root.p_elimination(p_Num, root);
+//		root.print(1,p_Num);
+//		System.out.println();
+//
+//	}
+//	
+//	public void unitTest4_Rhythms_B()
+//	{
+//		double p_Num = 0.2;
+//		String filePath = getPath("/mid/MaryHadALittleLamb.mid"); 
+//		MidiFileToNotes midiNotes = new MidiFileToNotes(filePath);
+//		int order = 3;
+//		System.out.println("----------------------------Here is unit test 4 (Rhythms)---------------------------------------------------");
+//		System.out.println("String: Mary Had a Little Lamb with Pmin = 0.2");
+//		PSTNode<Double> root = new PSTNode<Double>(order);
+//		root.addToTree(midiNotes.rhythms);
+//		root.setDataSize(midiNotes.rhythms.size());
+//		root.p_elimination(p_Num, root);
+//		root.print(1,p_Num);
+//		System.out.println();
+//
+//	}
+//	
 	
 	
 	

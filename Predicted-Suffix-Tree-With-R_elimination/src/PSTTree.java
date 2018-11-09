@@ -17,7 +17,7 @@ public class PSTTree<E> {
 	
 	void printAll(double pmin)
 	{
-		root.print(1,pmin);
+		//root.print(1,pmin);
 	}
 	
 	void addToTree(ArrayList<E> input)
@@ -27,7 +27,7 @@ public class PSTTree<E> {
 	
 	void p_eli(double p_Num)
 	{
-		root.p_elemination(p_Num, root);
+		root.p_elimination(p_Num, root);
 	}
 	
 
