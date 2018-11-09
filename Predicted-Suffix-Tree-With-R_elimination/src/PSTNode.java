@@ -6,19 +6,18 @@ public class PSTNode<E> {
 
 	private ArrayList<PSTNode<E>> children = new ArrayList<PSTNode<E>>();	//The children of the node
 	private ArrayList<E> word; // The value of node
-	private ArrayList<E> xVal; //The value of x in r-elimination
-	
+
 	private int length;//order of the PST tree
 	private int index = 0;	//This is the index of next node for isSuffix() and isFound() ----> it is useless at this point but i will combine it into my functions next week
 	private int countOfNode = 0;
 	private double probOfNode = 1;
-	private double rValOfNode = 1;
+	private double rValOfNode = 500.0;
 	private int dataSize = 0;	
 
-	
+
 	//Constructors
 	PSTNode() {}
-	
+
 	PSTNode(int order) 
 	{
 		length = order;
@@ -28,13 +27,13 @@ public class PSTNode<E> {
 	{
 		word = input;
 	}
-	
+
 	void setDataSize(int size)
 	{
 		dataSize = size;
 	}
 
-	
+
 	//Getter for getting the value of the node
 	ArrayList<E> getWord(int index)
 	{
@@ -48,7 +47,7 @@ public class PSTNode<E> {
 	}
 
 	//Mainly for parsing files, this function will take the entie input data set and add each element from size of 1-length to the tree
-	 void addToTree(ArrayList<E> input)	//addNode function
+	void addToTree(ArrayList<E> input)	//addNode function
 	{
 		//Get the word from size of 1 to size of length
 		for(int i = 1; i <= length; i++)
@@ -60,14 +59,14 @@ public class PSTNode<E> {
 				ArrayList<E> temp = new ArrayList<E>(input.subList(j, j+i));
 				//using the temp to create a new temp node
 				PSTNode<E> newNode = new PSTNode<E>(temp);
-				
+
 				//Following function create the level 1 nodes: abrdc
 				if(newNode.word.size() == 1 && isLevel1Node(newNode) == true)
 				{
 					//If size == 1 (abcdr). Add to the this.children array
 					children.add(newNode); 
 				} 
-			
+
 				//if the size > 1, we test if it isSuffix and add to the tree
 				else if(newNode.word.size() > 1)
 				{
@@ -76,15 +75,15 @@ public class PSTNode<E> {
 			}
 		}
 	}
-	
+
 	//ifFound check if the input node value already exist in the tree, if not, we add it to the branch.
 	boolean ifFound(PSTNode<E> node, int index, ArrayList<E> val)
 	{
 		PSTNode<E> newNode = node.getNode(index);
-		
+
 		for(int i = 0; i < newNode.children.size(); i++)
 		{
-			
+
 			//If we find a same word from the children arraylist, we add 1 to the count of this node and return true
 			if(newNode.getWord(i).equals(val))
 			{
@@ -96,25 +95,25 @@ public class PSTNode<E> {
 		addNote(newNode,val);
 		return false;
 	}
-	
-	
+
+
 	//This function is for level 1 of the PST tree (size of the node == 1)
-		boolean isLevel1Node(PSTNode<E> level1Node)
+	boolean isLevel1Node(PSTNode<E> level1Node)
+	{
+		for (int i = 0; i < children.size(); i ++)
 		{
-			for (int i = 0; i < children.size(); i ++)
+			if(children.get(i).word.equals(level1Node.word) == true)
 			{
-				if(children.get(i).word.equals(level1Node.word) == true)
-				{
-					//Add count to level 1 note that are already exist
-					addCount(children.get(i));
-					return false;
-				}
+				//Add count to level 1 note that are already exist
+				addCount(children.get(i));
+				return false;
 			}
-			addCount(level1Node);
-			return true;
 		}
-	
-		
+		addCount(level1Node);
+		return true;
+	}
+
+
 	//Add node to the branch
 	void addNote(PSTNode<E> node, ArrayList<E> val)
 	{
@@ -123,26 +122,27 @@ public class PSTNode<E> {
 		node.children.add(newChild);
 	}
 
-	
+
 	void addCount(PSTNode<E> node)
 	{
 		node.countOfNode = node.countOfNode + 1;
 		//System.out.println("The node is " + node.word + " The count is "+ node.countOfNode);
 	}
-	
-	
+
+
 	//Print function for testing
 	void print(int time, double pmin, double rmin)	
 	{
-		
+
 		for(int i = 0; i < children.size(); i++)
 		{
-			if( children.get(i).probOfNode < pmin)
+			if( children.get(i).probOfNode < pmin || children.get(i).rValOfNode < rmin)
 			{
 				PSTNode<E> temp = children.get(i);
 				children.remove(temp);
 			}
-			else if( children.get(i).probOfNode >= pmin)
+			else if( children.get(i).probOfNode >= pmin && children.get(i).rValOfNode > rmin)
+				//				
 			{
 				printSpace(children.get(i).word.size());
 				System.out.println("-->"+children.get(i).word);
@@ -150,11 +150,11 @@ public class PSTNode<E> {
 				PSTNode<E> temp = children.get(i);
 				temp.print(time, pmin, rmin);
 			}
-			
+
 		}
 	}
-	
-	
+
+
 	//create the probability and eliminate elemenets that have p > pmin
 	void p_elimination(double pNum, PSTNode<E> motherNode)
 	{
@@ -176,14 +176,57 @@ public class PSTNode<E> {
 				PSTNode<E> childrenNode = motherNode.getNode(i);
 				ArrayList<E> childWord = childrenNode.word;
 				ArrayList<E> parentWord = getParentWord(childWord);
+				int parentCount = getCount(parentWord,data);
+				int childCount = getCount(childWord, data);
 				E x = getXval(childrenNode, data);
-				System.out.println("Children word is: "+childWord+" Parent word is: "+parentWord + " X = "+ x);
-				
+
+				int xCountAfterChild = getCountAfterWord(childWord,data,x);
+				int xCountAfterParent = getCountAfterWord(parentWord,data,x);
+
+				double ratio;
+				double ratio1 = (double)xCountAfterChild/childCount;
+				System.out.println("Ratio 1 = "+ratio1);
+				double ratio2 = (double)xCountAfterParent/parentCount;
+				System.out.println("Ratio 2 = "+ratio2);
+				ratio = (double)(ratio1/ratio2);		 
+				//     (counts of x appear after children / counts of children appear)
+				//r = ------------------------------------------------------------------
+				//     (counts of x appear after parents/ counts of parents)
+
+//				System.out.println("Child word is "+ childWord + " Parent Word is "+ parentWord);
+//				System.out.println("Children count is: "+childCount+" Parent count is: "+parentCount + "      X = "+ x + " R = "+ratio);
+//				System.out.println("x after Children count is: "+xCountAfterChild+" x after Parent count is: "+xCountAfterParent + "    X = "+ x + " R = "+ratio);
+//
+				childrenNode.setRval(ratio);
+//				System.out.println();
+
 				createRprob(rNum,childrenNode,data);
 			}
 		}
 	}
-	
+
+	void setRval(double val)
+	{
+		this.rValOfNode = val;
+	}
+
+	int getCountAfterWord(ArrayList<E> word, ArrayList<E> data, E target)
+	{
+		int count = 0;
+		for (int i = 0; i < data.size() - word.size(); i++)
+		{
+			ArrayList<E> temp = new ArrayList<E>(data.subList(i, i+word.size()));
+			if(temp.equals(word))
+			{
+				if(data.get(i+word.size()).equals(target))
+				{
+					count = count + 1;
+				}
+			}
+		}
+		return count;
+	}
+
 	ArrayList<E> getParentWord(ArrayList<E> childWord)
 	{
 		ArrayList<E> parentWord = new ArrayList<E>();
@@ -193,7 +236,23 @@ public class PSTNode<E> {
 		}
 		return parentWord;
 	}
-	
+
+
+	int getCount(ArrayList<E> input, ArrayList<E> data)
+	{
+		int time = 0;
+		for(int i = 0; i < data.size() - input.size()+1; i++)
+		{
+			ArrayList<E> temp = new ArrayList<E>(data.subList(i, i+input.size()));
+			//System.out.println("Temp = "+temp);
+			if(temp.equals(input))
+			{
+				time = time + 1;
+			}
+		}
+		return time;
+	}
+
 	//recursive function to find the probability of each note of a branch
 	void createProb(PSTNode<E> motherNode, double pNum)
 	{
@@ -207,10 +266,10 @@ public class PSTNode<E> {
 			}
 		}
 	}
-	
-	
-	
-	
+
+
+
+
 	E getXval(PSTNode<E> node, ArrayList<E> data)
 	{
 		ArrayList<Pair<E>> allXs = new ArrayList<Pair<E>>();
@@ -220,10 +279,10 @@ public class PSTNode<E> {
 			ArrayList<E> temp = new ArrayList<E>(data.subList(i, i+childWord.size()));
 			if(temp.equals(childWord))
 			{
-				
+
 				E x = data.get(i+childWord.size());
 				int check = 0;
-				
+
 				//check if the pair already exist
 				for(int j = 0; j < allXs.size(); j++)
 				{
@@ -233,7 +292,7 @@ public class PSTNode<E> {
 						check = 1;
 					}
 				}
-				
+
 				//we add Pair to arrayList if it is not found
 				if(check == 0)
 				{
@@ -242,41 +301,41 @@ public class PSTNode<E> {
 				}
 			}
 		}
-		
-		
+
+
 		Pair<E> tempx = allXs.get(0);
 		int max = allXs.get(0).getSecond();
-		
+
 		for(int count = 0; count < allXs.size(); count++)
 		{
-			
-			
+
+
 			if(allXs.get(count).getSecond() > max)
 			{
 				max = allXs.get(count).getSecond();
 				tempx = allXs.get(count);
 			}
 		}
-		
+
 		E x = tempx.getFirst();
 		return x;
-		
+
 	}
-	
-	
-	
+
+
+
 	void countProb(PSTNode<E> motherNode, double pNum)
 	{
 		//total count = total word in the data array - current word length
 		int sumOfCount = 0;
 		if(motherNode.word != null)
 		{
-			 sumOfCount =  dataSize - motherNode.word.size();
+			sumOfCount =  dataSize - motherNode.word.size();
 		}
 		else
 		{
 			//for the root empty array
-			 sumOfCount = dataSize;
+			sumOfCount = dataSize;
 		}
 		//probability = counts/sumOfCount
 		for(int i = 0; i < motherNode.children.size(); i++)
@@ -286,18 +345,18 @@ public class PSTNode<E> {
 			setProbNode(prob,i,motherNode);
 		}
 	}
-	
-	
-	
 
-	
+
+
+
+
 	//set the probability for each node
 	void setProbNode(double val,int index, PSTNode<E> motherNode)
 	{
 		motherNode.children.get(index).probOfNode = val;
 	}
-	
-	
+
+
 	void printSpace(int times)
 	{
 		for(int i = 0; i < times; i ++)
@@ -306,12 +365,12 @@ public class PSTNode<E> {
 		}
 	}
 
-	
+
 
 	//This function check if the input arraylist is suffix
 	boolean isSuffix(ArrayList<E> input, PSTNode<E> currentNode, int loop)
 	{
-		
+
 		ArrayList<E> temp = new ArrayList<E>();
 		for(int i = input.size()-loop; i < input.size(); i++)
 		{
@@ -332,7 +391,7 @@ public class PSTNode<E> {
 				}
 			}
 		}
-		
+
 		if(temp.size() == input.size()-1)
 		{
 			//When we found the desired brunch, we use ifFound to see if the node fulfill with our requirement. 
@@ -340,7 +399,7 @@ public class PSTNode<E> {
 			{
 				if(currentNode.getWord(i).equals(temp) == true)
 				{
-//					System.out.println(" Input = "+input);
+					//					System.out.println(" Input = "+input);
 					ifFound(currentNode, i,input);
 					return true;
 				}
@@ -348,19 +407,9 @@ public class PSTNode<E> {
 		}
 		return false;
 	}
-	
-	int findX(ArrayList<E> input)
-	{
-		int target = 0;
-		//     (counts of x appear after children / counts of children appear)
-		//r = ------------------------------------------------------------------
-		//     (counts of x appear after parents/ counts of parents)
-		
-		
-		return target;
-	}
 
-	
-	
-	
+
+
+
+
 }
